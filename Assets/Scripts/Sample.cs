@@ -8,6 +8,8 @@ public class Sample : MonoBehaviour
     void Start()
     {
         Debug.Log("hahaha");
+        Debug.Log("Hi Unity!");
+        Debug.Log("Conflict");
     }
 
     // Update is called once per frame
