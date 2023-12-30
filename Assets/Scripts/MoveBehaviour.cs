@@ -8,8 +8,8 @@ using UnityEngine.Serialization;
 public class MoveBehaviour : NetworkBehaviour
 {
     [SerializeField] private PlayerInputActions playerInputActions;
-    [SerializeField] private Vector3 _direction;
-    [SerializeField] private Rigidbody _rigidbody;
+    private Vector3 _direction;
+    private Rigidbody _rigidbody;
     [SerializeField] private float speed;
 
     private void OnEnable()
@@ -45,6 +45,7 @@ public class MoveBehaviour : NetworkBehaviour
         {
             _direction = dir.normalized;
         }
+        LetServerSayHelloToMe();
     }
 
     private void StopMove()
@@ -53,5 +54,18 @@ public class MoveBehaviour : NetworkBehaviour
         {
             _direction = Vector3.zero;
         }
+    }
+    
+    [Command]
+    void LetServerSayHelloToMe()
+    {
+        Debug.Log("Server: Hello");
+        LetTargetSayHelloBack();
+    }
+
+    [TargetRpc]
+    void LetTargetSayHelloBack()
+    {
+        Debug.Log("Client: hello");
     }
 }
