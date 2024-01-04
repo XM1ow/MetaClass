@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Serialization;
+using Ive;
 
 public class MoveBehaviour : NetworkBehaviour
 {
     [SerializeField] private PlayerInputActions playerInputActions;
-    private Vector3 _direction;
+    private Vector2 _direction;
     private Rigidbody _rigidbody;
-    [SerializeField] private float speed;
+    private float _speed;
 
     private void OnEnable()
     {
@@ -27,15 +27,15 @@ public class MoveBehaviour : NetworkBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        speed = 5f;
+        _speed = 5f;
         playerInputActions.EnableGameplayInput();
     }
 
     private void FixedUpdate()
     {
-        if (_rigidbody && isLocalPlayer)
+        if (isLocalPlayer)
         {
-            _rigidbody.velocity = _direction * speed;
+            _rigidbody.velocity = _direction.ToVector3XZ() * _speed;
         }
     }
 
@@ -45,7 +45,6 @@ public class MoveBehaviour : NetworkBehaviour
         {
             _direction = dir.normalized;
         }
-        LetServerSayHelloToMe();
     }
 
     private void StopMove()
