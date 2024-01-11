@@ -9,6 +9,10 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
     private PlayerInput _playerInput;
     public event UnityAction<Vector2> onMovement;
     public event UnityAction onStopMove;
+
+    public event UnityAction onToggleSpeak;
+
+    public event UnityAction onReleaseSpeak;
     // general methods
     void OnEnable()
     {
@@ -39,6 +43,18 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
         if (context.phase == InputActionPhase.Canceled)
         {
             onStopMove?.Invoke();
+        }
+    }
+
+    public void OnSpeak(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            onToggleSpeak?.Invoke();
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            onReleaseSpeak?.Invoke();
         }
     }
 }
