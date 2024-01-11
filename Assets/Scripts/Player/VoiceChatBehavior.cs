@@ -10,7 +10,7 @@ public class VoiceChatBehavior : NetworkBehaviour
 {
     [SerializeField] private PlayerInputActions _playerInputActions;
     private VoiceBroadcastTrigger _voiceBroadcastTrigger;
-
+    public string voiceChatRoomName = "Global";
     private void Awake()
     {
         gameObject.AddComponent<MirrorIgnorancePlayer>();
@@ -19,7 +19,7 @@ public class VoiceChatBehavior : NetworkBehaviour
         {
             _voiceBroadcastTrigger.Mode = CommActivationMode.Open;
             _voiceBroadcastTrigger.IsMuted = true;
-            _voiceBroadcastTrigger.RoomName = "Global";
+            _voiceBroadcastTrigger.RoomName = voiceChatRoomName;
         }
         _playerInputActions.EnableGameplayInput();
     }
