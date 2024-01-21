@@ -32,6 +32,7 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
     {
         _playerInput.Gameplay.Enable();
     }
+
     // movement action invoke
     public void OnMovement(InputAction.CallbackContext context)
     {
@@ -39,7 +40,6 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
         {
             onMovement?.Invoke(context.ReadValue<Vector2>());
         }
-
         if (context.phase == InputActionPhase.Canceled)
         {
             onStopMove?.Invoke();
