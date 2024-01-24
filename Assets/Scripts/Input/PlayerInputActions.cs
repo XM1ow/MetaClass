@@ -13,6 +13,10 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
     public event UnityAction onToggleSpeak;
 
     public event UnityAction onReleaseSpeak;
+
+    public event UnityAction onStartRunning;
+
+    public event UnityAction onStopRunning;
     // general methods
     void OnEnable()
     {
@@ -55,6 +59,18 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
         if (context.phase == InputActionPhase.Canceled)
         {
             onReleaseSpeak?.Invoke();
+        }
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            onStartRunning?.Invoke();
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            onStopRunning?.Invoke();
         }
     }
 }
