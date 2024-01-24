@@ -1,39 +1,95 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Ive;
 
-public class UserModelController : MonoBehaviour
+public class UserModelController : NetworkBehaviour
 {
     public float walkSpeed;
     public float runSpeed;
 
+    [SerializeField] private PlayerInputActions playerInputActions;
+    private Rigidbody rb;
     private Vector3 inputDir;
     private bool isRunning;
     private Animator animator;
     private Transform cameraTransform;
     // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
+        playerInputActions.onMovement += Move;
+        playerInputActions.onStopMove += StopMove;
+        playerInputActions.onStartRunning += StartRunning;
+        playerInputActions.onStopRunning += StopRunning;
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.onMovement -= Move;
+        playerInputActions.onStopMove -= StopMove;
+        playerInputActions.onStartRunning -= StartRunning;
+        playerInputActions.onStopRunning -= StopRunning;
+    }
+    private void Move(Vector2 dir)
+    {
+        if (isLocalPlayer)
+        {
+            inputDir = dir.ToVector3XZ().normalized;
+        }
+    }
+
+    private void StopMove()
+    {
+        if (isLocalPlayer)
+        {
+            inputDir = Vector3.zero;
+        }
+    }
+
+    private void StartRunning()
+    {
+        if (isLocalPlayer)
+        {
+            isRunning = true;
+        }
+    }
+
+    private void StopRunning()
+    {
+        if (isLocalPlayer)
+        {
+            isRunning = false;
+        }
+    }
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         cameraTransform = Camera.main.transform;
+        playerInputActions.EnableGameplayInput();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        GetPlayerInput();
-        SetAnimator();
-        MoveModel();
+        //GetPlayerInput();
+        if (isLocalPlayer)
+        {
+            SetAnimator();
+            MoveModel();
+        }
     }
 
-    private void GetPlayerInput()
+    /*private void GetPlayerInput()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         isRunning = Input.GetKey(KeyCode.LeftShift);
         inputDir.x = x;inputDir.z = z;
-    }
+    }*/
 
     private void SetAnimator()
     {
@@ -48,8 +104,7 @@ public class UserModelController : MonoBehaviour
         float angleTmp = Vector3.Angle(Vector3.forward, inputDir);
         if (inputDir.x < 0) angleTmp = -angleTmp;
         transform.forward = Quaternion.AngleAxis(angleTmp, Vector3.up) * cameraForward;
-        transform.position += transform.forward * (isRunning ? runSpeed : walkSpeed) * Time.deltaTime;
-        //transform.forward = inputDir;
-        //transform.position += inputDir * (isRunning ? runSpeed : walkSpeed) * Time.deltaTime;
+        rb.velocity = transform.forward * (isRunning ? runSpeed : walkSpeed);
+        //transform.position += transform.forward * (isRunning ? runSpeed : walkSpeed) * Time.deltaTime;
     }
 }
