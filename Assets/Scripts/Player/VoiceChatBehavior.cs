@@ -21,6 +21,8 @@ public class VoiceChatBehavior : NetworkBehaviour
             _voiceBroadcastTrigger.IsMuted = true;
             _voiceBroadcastTrigger.RoomName = voiceChatRoomName;
         }
+        if(!_playerInputActions)
+            _playerInputActions = ScriptableObject.CreateInstance<PlayerInputActions>();
         _playerInputActions.EnableGameplayInput();
     }
 
