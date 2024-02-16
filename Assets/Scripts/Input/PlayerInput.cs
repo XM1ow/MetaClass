@@ -44,15 +44,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""4369ec8e-0bd1-4c1d-9a80-0dfb652ca987"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,17 +123,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Speak"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fda7e57e-0540-4601-9abb-bf70db8ef00a"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -159,7 +139,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Speak = m_Gameplay.FindAction("Speak", throwIfNotFound: true);
-        m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -221,14 +200,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Speak;
-    private readonly InputAction m_Gameplay_Run;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
         public GameplayActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Speak => m_Wrapper.m_Gameplay_Speak;
-        public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -244,9 +221,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Speak.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
                 @Speak.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
                 @Speak.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
-                @Run.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -257,9 +231,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Speak.started += instance.OnSpeak;
                 @Speak.performed += instance.OnSpeak;
                 @Speak.canceled += instance.OnSpeak;
-                @Run.started += instance.OnRun;
-                @Run.performed += instance.OnRun;
-                @Run.canceled += instance.OnRun;
             }
         }
     }
@@ -277,6 +248,5 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnSpeak(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
     }
 }
