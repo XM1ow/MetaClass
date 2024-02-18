@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Ive;
+using UnityEngine.Windows;
 
 public class CharaController : NetworkBehaviour
 {
@@ -56,6 +57,7 @@ public class CharaController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.C)) SetCamera();
             SetAnimator();
             MoveModel();
         }
@@ -83,5 +85,10 @@ public class CharaController : NetworkBehaviour
     private void FixedUpdate()
     {
         transform.position += velocity * Time.fixedDeltaTime;
+    }
+
+    public void SetCamera()
+    {
+        Camera.main.GetComponent<CameraController>().CameraControllerInit(transform);
     }
 }

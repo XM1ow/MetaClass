@@ -314,12 +314,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5b1563b49032e4f922495ff8226c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  follow: {fileID: 0}
-  cameraCenterOffset: {x: 0, y: 0, z: 0}
-  cameraRadius: 0
-  initVerticalAngle: 0
-  cameraSpeed: 0
-  verticalAngleLimit: 0
+  cameraCenterOffset: {x: 0, y: 2.5, z: 0}
+  thirdCameraRadius: 8
+  firstCameraRadius: 0.5
+  initVerticalAngle: 20
+  cameraSpeed: 360
+  verticalAngleLimit: 30
 --- !u!1 &438289427
 GameObject:
   m_ObjectHideFlags: 0
