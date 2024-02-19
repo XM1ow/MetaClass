@@ -60,6 +60,7 @@ public class CharaController : NetworkBehaviour
             if (UnityEngine.Input.GetKeyDown(KeyCode.C)) SetCamera();
             SetAnimator();
             MoveModel();
+            transform.position += velocity * Time.deltaTime;
         }
     }
 
@@ -80,11 +81,6 @@ public class CharaController : NetworkBehaviour
         if (inputDir.x < 0) angleTmp = -angleTmp;
         transform.forward = Quaternion.AngleAxis(angleTmp, Vector3.up) * cameraForward;
         velocity = transform.forward * speed;
-    }
-
-    private void FixedUpdate()
-    {
-        transform.position += velocity * Time.fixedDeltaTime;
     }
 
     public void SetCamera()
