@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Vector3 cameraCenterOffset;
+    public LayerMask colliderLayer;
+    public Vector3 thirdCameraCenterOffset;
+    public Vector3 firstCameraCenterOffset;
     public float thirdCameraRadius;
     public float firstCameraRadius;
     public float initVerticalAngle;
@@ -23,7 +25,7 @@ public class CameraController : MonoBehaviour
     {
         follow = trans;
         Cursor.visible = false;
-        cameraCenter = follow.position + cameraCenterOffset;
+        cameraCenter = follow.position + thirdCameraCenterOffset;
         cameraRadiusVector = -Vector3.forward * thirdCameraRadius;
         if (initVerticalAngle > verticalAngleLimit) initVerticalAngle = verticalAngleLimit;
         if (initVerticalAngle < -verticalAngleLimit) initVerticalAngle = -verticalAngleLimit;
@@ -44,11 +46,16 @@ public class CameraController : MonoBehaviour
 
     private void CalculateCameraPosition()
     {
-        cameraCenter = follow.position + cameraCenterOffset;
+        cameraCenter = follow.position + (isFirstPerson ? firstCameraCenterOffset : thirdCameraCenterOffset);
         Vector3 nowPosition = cameraRadiusVector;
         nowPosition = Quaternion.AngleAxis(verticalAngle, Vector3.right) * nowPosition;
         nowPosition = Quaternion.AngleAxis(horizontalAngle, Vector3.up) * nowPosition;
         if (isFirstPerson) nowPosition = -nowPosition * firstCameraRadius / thirdCameraRadius;
+
+        RaycastHit raycast;
+        Physics.Raycast(cameraCenter, nowPosition, out raycast, nowPosition.magnitude, colliderLayer);
+        if (raycast.collider != null) nowPosition = nowPosition * ((Vector3.Distance(cameraCenter, raycast.point) - 0.1f) / nowPosition.magnitude);
+
         transform.position = cameraCenter + nowPosition;
         transform.forward = isFirstPerson ? nowPosition : -nowPosition;
     }
