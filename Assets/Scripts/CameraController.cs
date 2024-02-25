@@ -4,23 +4,29 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform follow;
-    public Vector3 cameraCenterOffset;
-    public float cameraRadius;
+    public LayerMask colliderLayer;
+    public Vector3 thirdCameraCenterOffset;
+    public Vector3 firstCameraCenterOffset;
+    public float thirdCameraRadius;
+    public float firstCameraRadius;
     public float initVerticalAngle;
     public float cameraSpeed;
     public float verticalAngleLimit;
 
+    private bool isFirstPerson;
+    private Transform follow;
     private Vector3 cameraCenter;
     private Vector3 cameraRadiusVector;
     private float verticalAngle;
     private float horizontalAngle;
     // Start is called before the first frame update
-    private void Start()
+
+    public void CameraControllerInit(Transform trans)
     {
+        follow = trans;
         Cursor.visible = false;
-        cameraCenter = follow.position + cameraCenterOffset;
-        cameraRadiusVector = -Vector3.forward * cameraRadius;
+        cameraCenter = follow.position + thirdCameraCenterOffset;
+        cameraRadiusVector = -Vector3.forward * thirdCameraRadius;
         if (initVerticalAngle > verticalAngleLimit) initVerticalAngle = verticalAngleLimit;
         if (initVerticalAngle < -verticalAngleLimit) initVerticalAngle = -verticalAngleLimit;
         verticalAngle = initVerticalAngle;
@@ -30,18 +36,28 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        CalculateCameraPosition();
-        GetMouseInput();
+        if (follow != null)
+        {
+            CalculateCameraPosition();
+            GetMouseInput();
+        }
+        if (Input.GetKeyDown(KeyCode.V)) isFirstPerson = !isFirstPerson;
     }
 
     private void CalculateCameraPosition()
     {
-        cameraCenter = follow.position + cameraCenterOffset;
+        cameraCenter = follow.position + (isFirstPerson ? firstCameraCenterOffset : thirdCameraCenterOffset);
         Vector3 nowPosition = cameraRadiusVector;
         nowPosition = Quaternion.AngleAxis(verticalAngle, Vector3.right) * nowPosition;
         nowPosition = Quaternion.AngleAxis(horizontalAngle, Vector3.up) * nowPosition;
+        if (isFirstPerson) nowPosition = -nowPosition * firstCameraRadius / thirdCameraRadius;
+
+        RaycastHit raycast;
+        Physics.Raycast(cameraCenter, nowPosition, out raycast, nowPosition.magnitude, colliderLayer);
+        if (raycast.collider != null) nowPosition = nowPosition * ((Vector3.Distance(cameraCenter, raycast.point) - 0.1f) / nowPosition.magnitude);
+
         transform.position = cameraCenter + nowPosition;
-        transform.forward = -nowPosition;
+        transform.forward = isFirstPerson ? nowPosition : -nowPosition;
     }
 
     private void GetMouseInput()
