@@ -44,12 +44,14 @@ public class CharaController : NetworkBehaviour
         }
     }
 
-    private void Awake()
+    public override void OnStartLocalPlayer()
     {
+        base.OnStartLocalPlayer();
         rb = GetComponent<Rigidbody>();
         animator = transform.GetChild(1).GetComponent<Animator>();
         cameraTransform = Camera.main.transform;
         playerInputActions.EnableGameplayInput();
+        SetCamera();
     }
 
     // Update is called once per frame

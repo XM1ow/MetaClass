@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
@@ -101,5 +102,5 @@ public class INetworkHUD : MonoBehaviour
         joinRoomPanel.SetActive(true);
     }
     
-
+    
 }
