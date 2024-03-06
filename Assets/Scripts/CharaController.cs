@@ -59,7 +59,6 @@ public class CharaController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.C)) SetCamera();
             SetAnimator();
             MoveModel();
             transform.position += velocity * Time.deltaTime;

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 787226232710374002}
   - component: {fileID: 787226232710374012}
   - component: {fileID: 787226232710374015}
+  - component: {fileID: 6932737275017344012}
   m_Layer: 0
   m_Name: PlayerChara
   m_TagString: Untagged
@@ -168,6 +169,23 @@ MonoBehaviour:
   syncInterval: 0
   speed: 5
   playerInputActions: {fileID: 11400000, guid: 43559789759e3834bac045240abc3959, type: 2}
+--- !u!114 &6932737275017344012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445192015733268260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4ff9c7004bcb4428f73ca8093c47b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _playerInputActions: {fileID: 11400000, guid: 43559789759e3834bac045240abc3959, type: 2}
+  voiceChatRoomName: Global
 --- !u!1 &578688572038802629
 GameObject:
   m_ObjectHideFlags: 0
