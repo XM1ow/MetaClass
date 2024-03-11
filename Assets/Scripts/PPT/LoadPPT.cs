@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +19,8 @@ public class LoadPPT : MonoBehaviour
     [SerializeField] Button toPrePageBtn;   //上一页按钮
     [SerializeField] Button toNestPageBtn;   //下一页按钮
     [SerializeField] Button loadBtn;   //下一页按钮
+
+    public NetworkSlidesSyncManager slidesSyncManager;
     private void Start ()
     {
         //按钮监听
@@ -24,6 +29,9 @@ public class LoadPPT : MonoBehaviour
         toPrePageBtn.onClick.AddListener(ToPrePage);
         toNestPageBtn.onClick.AddListener(ToNextPage);
         loadBtn.onClick.AddListener(Load);
+        // network sync components init
+        slidesSyncManager = GetComponent<NetworkSlidesSyncManager>();
+        slidesSyncManager.localSlidesPlayer = this;
     }
 
     private void Update()
@@ -34,6 +42,10 @@ public class LoadPPT : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4)) ToNextPage();
         if (Input.GetKeyDown(KeyCode.Alpha5)) Load();
     }
+
+    private List<GameObject> _slideGameObjects = new ();
+    private const int BUFFER_SIZE = 4096;
+    private List<byte> _byteBuffer = new List<byte>();
     void Load ()
     {
         if (IsInvoking("AutoPlayImage"))
@@ -45,23 +57,80 @@ public class LoadPPT : MonoBehaviour
         //遍历文档（只做示例使用自己根据需求拓展）
         for (int i = 0; i < presentation.Slides.Count; i++)
         {
-            Instantiate(prefab, content);
-            if (i < content.childCount)
+            var slide = presentation.Slides[i];
+            var bitmap = slide.GetThumbnail(1f, 1f);
+            byte[] bytes = Bitmap2Byte(bitmap);
+            _currentReadingProcess = 0;
+            if (NetworkManager.singleton.isNetworkActive)
+            {                    
+                int bufferIndex = 0;
+                var length = bytes.Length;
+                foreach (var b in bytes)
+                {
+                    if (_currentReadingProcess < length)
+                    {
+                        _byteBuffer.Add(b);
+                        _currentReadingProcess++;
+                        bufferIndex++;
+                    }
+                    if(bufferIndex >= BUFFER_SIZE || _currentReadingProcess >= length)
+                    {
+                        // send one package
+                        slidesSyncManager.CmdSendBytePackage(_byteBuffer.ToArray(), i, _currentReadingProcess >= bytes.Length);
+                        _byteBuffer.Clear();
+                        bufferIndex = 0;
+                    }
+                }
+            }
+            else
             {
-                var slide = presentation.Slides[i];
-                var bitmap = slide.GetThumbnail(1f, 1f);
-                byte[] bytes = Bitmap2Byte(bitmap);
-
-                var showImage = content.GetChild(i).GetComponent<UnityEngine.UI.Image>();
-                int width = 960, height = 540;
-                Texture2D texture2D = new Texture2D(width, height);
-                texture2D.LoadImage(bytes);
-                Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, width, height), Vector2.zero);
-                showImage.sprite = sprite;
+                foreach (var b in bytes)
+                {
+                    _byteTemp.Add(b);
+                }
+                MakeSlidePrefab(i);
             }
         }
-        //改成自己的文件路径
-        FirstPage();
+        if(NetworkManager.singleton.isNetworkActive)
+            slidesSyncManager.CmdShowFirstPage();
+        else
+            FirstPage();
+    }
+
+    private List<byte> _byteTemp = new ();
+    private int _currentReadingProcess;
+
+    public void ReadBufferToTemp(byte[] buffer)
+    {
+        foreach (var b in buffer)
+        {
+            _byteTemp.Add(b);
+        }
+    }
+    public void MakeSlidePrefab(int index)
+    {
+        if (_byteTemp.Count < _currentReadingProcess)
+        {
+            Debug.LogError($"byte temp length is {_byteTemp.Count} and currentReadingProcess is {_currentReadingProcess}, Package Lost!");
+        }
+        Debug.Log($"Building slide byte length {_byteTemp.Count}");
+        GameObject slideGameObject;
+        if (index < _slideGameObjects.Count)
+        {
+            slideGameObject = _slideGameObjects[index];
+        }
+        else
+        {
+            slideGameObject = Instantiate(prefab, content).gameObject;
+            _slideGameObjects.Add(slideGameObject);
+        }
+        var showImage = slideGameObject.GetComponent<Image>();
+        int width = 960, height = 540;
+        Texture2D texture2D = new Texture2D(width, height);
+        texture2D.LoadImage(_byteTemp.ToArray());
+        Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, width, height), Vector2.zero);
+        showImage.sprite = sprite;
+        _byteTemp.Clear();
     }
 
     //将ppt转为图片数据
@@ -81,7 +150,7 @@ public class LoadPPT : MonoBehaviour
     #region 首尾页
 
     //显示首页
-    void FirstPage()
+    public void FirstPage()
     {
         if (IsInvoking("AutoPlayImage"))
             CancelInvoke("AutoPlayImage");
