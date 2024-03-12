@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,23 +11,30 @@ public class CharaController : NetworkBehaviour
 {
     public float speed;
 
-    [SerializeField] private PlayerInputActions playerInputActions;
+    private PlayerInputActions _playerInputActions;
     private Rigidbody rb;
     private Vector3 inputDir;
     private Animator animator;
     private Transform cameraTransform;
     private Vector3 velocity;
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if(!_playerInputActions)
+            _playerInputActions = ScriptableObject.CreateInstance<PlayerInputActions>();
+        _playerInputActions.EnableGameplayInput();
+    }
+
     private void OnEnable()
     {
-        playerInputActions.onMovement += Move;
-        playerInputActions.onStopMove += StopMove;
+        _playerInputActions.onMovement += Move;
+        _playerInputActions.onStopMove += StopMove;
     }
 
     private void OnDisable()
     {
-        playerInputActions.onMovement -= Move;
-        playerInputActions.onStopMove -= StopMove;
+        _playerInputActions.onMovement -= Move;
+        _playerInputActions.onStopMove -= StopMove;
     }
     private void Move(Vector2 dir)
     {
@@ -50,7 +58,6 @@ public class CharaController : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         animator = transform.GetChild(1).GetComponent<Animator>();
         cameraTransform = Camera.main.transform;
-        playerInputActions.EnableGameplayInput();
         SetCamera();
     }
 
@@ -59,7 +66,6 @@ public class CharaController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.C)) SetCamera();
             SetAnimator();
             MoveModel();
             transform.position += velocity * Time.deltaTime;
