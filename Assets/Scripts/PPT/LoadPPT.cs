@@ -14,6 +14,8 @@ public class LoadPPT : MonoBehaviour
     public Transform content;
     [SerializeField] Image prefab;
 
+    [SerializeField] private SlidesInputActions _slidesInputActions;
+
     [SerializeField] Button firstPageBtn;   //第一个按钮
     [SerializeField] Button lastPageBtn;   //第一个按钮
     [SerializeField] Button toPrePageBtn;   //上一页按钮
@@ -32,20 +34,54 @@ public class LoadPPT : MonoBehaviour
         // network sync components init
         slidesSyncManager = GetComponent<NetworkSlidesSyncManager>();
         slidesSyncManager.localSlidesPlayer = this;
+        // input Actions
+        if (!_slidesInputActions)
+            _slidesInputActions = ScriptableObject.CreateInstance<SlidesInputActions>();
+        _slidesInputActions.EnableSlidesInput();
+        // Action Binding
+        _slidesInputActions.onFirstPage += () =>
+        {
+            if (NetworkManager.singleton.isNetworkActive)
+                slidesSyncManager.CmdFirstPage();
+            else
+                FirstPage();
+        };
+        _slidesInputActions.onLastPage += () =>
+        {
+            if (NetworkManager.singleton.isNetworkActive)
+                slidesSyncManager.CmdLastPage();
+            else
+                LastPage();
+        };
+        _slidesInputActions.onPreviousPage += () =>
+        {
+            if (NetworkManager.singleton.isNetworkActive)
+                slidesSyncManager.CmdPreviousPage();
+            else
+                ToPrePage();
+        };
+        _slidesInputActions.onNextPage += () =>
+        {
+            if (NetworkManager.singleton.isNetworkActive)
+                slidesSyncManager.CmdNextPage();
+            else
+                ToNextPage();
+        };
+        _slidesInputActions.onLoad += Load;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) FirstPage();
+        /*if (Input.GetKeyDown(KeyCode.Alpha1)) FirstPage();
         if (Input.GetKeyDown(KeyCode.Alpha2)) LastPage();
         if (Input.GetKeyDown(KeyCode.Alpha3)) ToPrePage();
         if (Input.GetKeyDown(KeyCode.Alpha4)) ToNextPage();
-        if (Input.GetKeyDown(KeyCode.Alpha5)) Load();
+        if (Input.GetKeyDown(KeyCode.Alpha5)) Load();*/
     }
 
     private List<GameObject> _slideGameObjects = new ();
     private const int BUFFER_SIZE = 4096;
-    private List<byte> _byteBuffer = new List<byte>();
+    private List<byte> _byteBuffer = new ();
     void Load ()
     {
         if (IsInvoking("AutoPlayImage"))
@@ -92,7 +128,7 @@ public class LoadPPT : MonoBehaviour
             }
         }
         if(NetworkManager.singleton.isNetworkActive)
-            slidesSyncManager.CmdShowFirstPage();
+            slidesSyncManager.CmdFirstPage();
         else
             FirstPage();
     }
@@ -109,10 +145,6 @@ public class LoadPPT : MonoBehaviour
     }
     public void MakeSlidePrefab(int index)
     {
-        if (_byteTemp.Count < _currentReadingProcess)
-        {
-            Debug.LogError($"byte temp length is {_byteTemp.Count} and currentReadingProcess is {_currentReadingProcess}, Package Lost!");
-        }
         Debug.Log($"Building slide byte length {_byteTemp.Count}");
         GameObject slideGameObject;
         if (index < _slideGameObjects.Count)
@@ -165,7 +197,7 @@ public class LoadPPT : MonoBehaviour
     }
 
     //显示尾页
-    void LastPage()
+    public void LastPage()
     {
         if (IsInvoking("AutoPlayImage"))
             CancelInvoke("AutoPlayImage");
@@ -185,7 +217,7 @@ public class LoadPPT : MonoBehaviour
 
     int index = 0;    //计数
     //上一张
-    void ToPrePage()
+    public void ToPrePage()
     {
         if (IsInvoking("AutoPlayImage"))
             CancelInvoke("AutoPlayImage");
@@ -203,7 +235,7 @@ public class LoadPPT : MonoBehaviour
     }
 
     //下一张
-    void ToNextPage()
+    public void ToNextPage()
     {
         if (IsInvoking("AutoPlayImage"))
             CancelInvoke("AutoPlayImage");

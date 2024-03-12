@@ -125,6 +125,114 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""SlidesControl"",
+            ""id"": ""3db64103-5fde-4ad6-808f-8dfde87f6531"",
+            ""actions"": [
+                {
+                    ""name"": ""FirstPage"",
+                    ""type"": ""Button"",
+                    ""id"": ""af0c7232-45fa-4eac-ac65-f11cc284f9f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LastPage"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c31f4f0-8984-43fe-a542-88fecb1c352f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PreviousPage"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e6dac9f-d2cd-459c-9d47-2974eca36734"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextPage"",
+                    ""type"": ""Button"",
+                    ""id"": ""0825f887-3628-4e8c-b468-a9740a79112f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""06ab02d6-6ed9-4b44-8b5e-3089bc79c0af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""871248ed-6915-42ba-9bdc-3cb4af9de5ad"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstPage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e96614b-a7dd-40ce-87f7-8172029093ce"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LastPage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dec5e3fc-d942-42e5-a3c5-39c7b7bea1e5"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreviousPage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4438c503-9912-46ba-a065-50f2d2d8b84c"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextPage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94f70a3c-0d49-4aa1-80c7-9c5e751b044d"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -139,6 +247,13 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Speak = m_Gameplay.FindAction("Speak", throwIfNotFound: true);
+        // SlidesControl
+        m_SlidesControl = asset.FindActionMap("SlidesControl", throwIfNotFound: true);
+        m_SlidesControl_FirstPage = m_SlidesControl.FindAction("FirstPage", throwIfNotFound: true);
+        m_SlidesControl_LastPage = m_SlidesControl.FindAction("LastPage", throwIfNotFound: true);
+        m_SlidesControl_PreviousPage = m_SlidesControl.FindAction("PreviousPage", throwIfNotFound: true);
+        m_SlidesControl_NextPage = m_SlidesControl.FindAction("NextPage", throwIfNotFound: true);
+        m_SlidesControl_Load = m_SlidesControl.FindAction("Load", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,6 +350,71 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // SlidesControl
+    private readonly InputActionMap m_SlidesControl;
+    private ISlidesControlActions m_SlidesControlActionsCallbackInterface;
+    private readonly InputAction m_SlidesControl_FirstPage;
+    private readonly InputAction m_SlidesControl_LastPage;
+    private readonly InputAction m_SlidesControl_PreviousPage;
+    private readonly InputAction m_SlidesControl_NextPage;
+    private readonly InputAction m_SlidesControl_Load;
+    public struct SlidesControlActions
+    {
+        private @PlayerInput m_Wrapper;
+        public SlidesControlActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @FirstPage => m_Wrapper.m_SlidesControl_FirstPage;
+        public InputAction @LastPage => m_Wrapper.m_SlidesControl_LastPage;
+        public InputAction @PreviousPage => m_Wrapper.m_SlidesControl_PreviousPage;
+        public InputAction @NextPage => m_Wrapper.m_SlidesControl_NextPage;
+        public InputAction @Load => m_Wrapper.m_SlidesControl_Load;
+        public InputActionMap Get() { return m_Wrapper.m_SlidesControl; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SlidesControlActions set) { return set.Get(); }
+        public void SetCallbacks(ISlidesControlActions instance)
+        {
+            if (m_Wrapper.m_SlidesControlActionsCallbackInterface != null)
+            {
+                @FirstPage.started -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnFirstPage;
+                @FirstPage.performed -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnFirstPage;
+                @FirstPage.canceled -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnFirstPage;
+                @LastPage.started -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLastPage;
+                @LastPage.performed -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLastPage;
+                @LastPage.canceled -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLastPage;
+                @PreviousPage.started -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnPreviousPage;
+                @PreviousPage.performed -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnPreviousPage;
+                @PreviousPage.canceled -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnPreviousPage;
+                @NextPage.started -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnNextPage;
+                @NextPage.performed -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnNextPage;
+                @NextPage.canceled -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnNextPage;
+                @Load.started -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLoad;
+                @Load.performed -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLoad;
+                @Load.canceled -= m_Wrapper.m_SlidesControlActionsCallbackInterface.OnLoad;
+            }
+            m_Wrapper.m_SlidesControlActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @FirstPage.started += instance.OnFirstPage;
+                @FirstPage.performed += instance.OnFirstPage;
+                @FirstPage.canceled += instance.OnFirstPage;
+                @LastPage.started += instance.OnLastPage;
+                @LastPage.performed += instance.OnLastPage;
+                @LastPage.canceled += instance.OnLastPage;
+                @PreviousPage.started += instance.OnPreviousPage;
+                @PreviousPage.performed += instance.OnPreviousPage;
+                @PreviousPage.canceled += instance.OnPreviousPage;
+                @NextPage.started += instance.OnNextPage;
+                @NextPage.performed += instance.OnNextPage;
+                @NextPage.canceled += instance.OnNextPage;
+                @Load.started += instance.OnLoad;
+                @Load.performed += instance.OnLoad;
+                @Load.canceled += instance.OnLoad;
+            }
+        }
+    }
+    public SlidesControlActions @SlidesControl => new SlidesControlActions(this);
     private int m_DefaultSchemeIndex = -1;
     public InputControlScheme DefaultScheme
     {
@@ -248,5 +428,13 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnSpeak(InputAction.CallbackContext context);
+    }
+    public interface ISlidesControlActions
+    {
+        void OnFirstPage(InputAction.CallbackContext context);
+        void OnLastPage(InputAction.CallbackContext context);
+        void OnPreviousPage(InputAction.CallbackContext context);
+        void OnNextPage(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
     }
 }

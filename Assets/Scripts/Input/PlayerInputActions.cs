@@ -25,9 +25,9 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
     }
     void OnDisable()
     {
-        DisableAllInputs();
+        DisableGameplayInput();
     }
-    public void DisableAllInputs()
+    public void DisableGameplayInput()
     {
         _playerInput.Gameplay.Disable();
     }

@@ -40,15 +40,68 @@ public class NetworkSlidesSyncManager : NetworkBehaviour
         localSlidesPlayer.MakeSlidePrefab(index);
     }
 
+    #region first page
+
     [Command(requiresAuthority = false)]
-    public void CmdShowFirstPage()
+    public void CmdFirstPage()
     {
-        ClientShowFirstPage();
+        ClientFirstPage();
     }
 
     [ClientRpc]
-    public void ClientShowFirstPage()
+    public void ClientFirstPage()
     {
         localSlidesPlayer.FirstPage();
     }
+
+    #endregion
+
+    #region last page
+
+    [Command(requiresAuthority = false)]
+    public void CmdLastPage()
+    {
+        ClientLastPage();
+    }
+
+    [ClientRpc]
+    public void ClientLastPage()
+    {
+        localSlidesPlayer.LastPage();
+    }
+
+    #endregion
+
+    #region previous page
+
+    [Command(requiresAuthority = false)]
+    public void CmdPreviousPage()
+    {
+        ClientPreviousPage();
+    }
+
+    [ClientRpc]
+    public void ClientPreviousPage()
+    {
+        localSlidesPlayer.ToPrePage();
+    }
+
+    #endregion
+
+    #region next page
+
+    [Command(requiresAuthority = false)]
+    public void CmdNextPage()
+    {
+        ClientNextPage();
+    }
+
+    [ClientRpc]
+    public void ClientNextPage()
+    {
+        localSlidesPlayer.ToNextPage();
+    }
+
+    #endregion
+    
 }
