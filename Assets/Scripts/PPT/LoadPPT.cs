@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 //※※※※ 别忘了在PlayerSetting中改成.net4.x的api ※※※※
 public class LoadPPT : MonoBehaviour
@@ -94,7 +96,8 @@ public class LoadPPT : MonoBehaviour
         for (int i = 0; i < presentation.Slides.Count; i++)
         {
             var slide = presentation.Slides[i];
-            var bitmap = slide.GetThumbnail(1f, 1f);
+            //var bitmap = slide.GetThumbnail(1f, 1f);
+            var bitmap = slide.GetThumbnail(new Size(1280, 720));
             byte[] bytes = Bitmap2Byte(bitmap);
             _currentReadingProcess = 0;
             if (NetworkManager.singleton.isNetworkActive)
@@ -157,10 +160,11 @@ public class LoadPPT : MonoBehaviour
             _slideGameObjects.Add(slideGameObject);
         }
         var showImage = slideGameObject.GetComponent<Image>();
-        int width = 960, height = 540;
+        int width = 1280, height = 720;
         Texture2D texture2D = new Texture2D(width, height);
         texture2D.LoadImage(_byteTemp.ToArray());
-        Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, width, height), Vector2.zero);
+        var size = texture2D.Size();
+        Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, size.x, size.y), Vector2.zero);
         showImage.sprite = sprite;
         _byteTemp.Clear();
     }
