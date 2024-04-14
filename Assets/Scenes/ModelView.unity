@@ -2352,7 +2352,7 @@ MonoBehaviour:
   thirdCameraRadius: 8
   firstCameraRadius: 1
   initVerticalAngle: 20
-  cameraSpeed: 360
+  cameraSpeed: 180
   verticalAngleLimit: 30
 --- !u!1 &396911141 stripped
 GameObject:
@@ -10097,6 +10097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 1730965629}
   prefab: {fileID: 9012645822521916707, guid: 61462b61f50be4641aa5c94ed30369a7, type: 3}
+  _slidesInputActions: {fileID: 0}
   firstPageBtn: {fileID: 530105223}
   lastPageBtn: {fileID: 1329696037}
   toPrePageBtn: {fileID: 981342276}

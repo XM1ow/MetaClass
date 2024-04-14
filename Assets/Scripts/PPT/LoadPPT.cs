@@ -163,8 +163,8 @@ public class LoadPPT : MonoBehaviour
         int width = 1280, height = 720;
         Texture2D texture2D = new Texture2D(width, height);
         texture2D.LoadImage(_byteTemp.ToArray());
-        var size = texture2D.Size();
-        Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, size.x, size.y), Vector2.zero);
+        //var size = texture2D.Size();
+        Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, width, height), Vector2.zero);
         showImage.sprite = sprite;
         _byteTemp.Clear();
     }
