@@ -5,20 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Dissonance/Integrations/MirrorIgnorance/Demo/MirrorIgnorance Demo.unity
-    guid: bb07781d277bdb4419ed472505c89305
-  - enabled: 0
-    path: Assets/Dissonance/Integrations/MirrorIgnorance/Demo/MirrorIgnorance Game
-      World.unity
-    guid: 7050b0d6c739022479fe143101b36e4b
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: 55d3549be83f9754abdb9370928854de
-  - enabled: 0
-    path: Assets/Scenes/Main.unity
-    guid: fa7db33a96d373648bf656ae25dd232e
-  - enabled: 1
-    path: Assets/Scenes/ModelView.unity
-    guid: c2408429b6e472848bcc4b997d3f34df
+    path: Assets/Scenes/MainScene.unity
+    guid: 2febc3a588debc447831ff76f086e82b
   m_configObjects: {}
