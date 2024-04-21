@@ -44,6 +44,24 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sit"",
+                    ""type"": ""Button"",
+                    ""id"": ""738c90f8-6b88-410c-bfee-93c9615892b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""eaeca46f-3f62-4bdf-87e1-fd4705ea26c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -121,6 +139,28 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Speak"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""baf1a11f-244c-4a1e-a2ba-16bf98442255"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Sit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7ea7f37-e8a4-4bcc-8cf8-d3710418e078"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -247,6 +287,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Speak = m_Gameplay.FindAction("Speak", throwIfNotFound: true);
+        m_Gameplay_Sit = m_Gameplay.FindAction("Sit", throwIfNotFound: true);
+        m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
         // SlidesControl
         m_SlidesControl = asset.FindActionMap("SlidesControl", throwIfNotFound: true);
         m_SlidesControl_FirstPage = m_SlidesControl.FindAction("FirstPage", throwIfNotFound: true);
@@ -315,12 +357,16 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Speak;
+    private readonly InputAction m_Gameplay_Sit;
+    private readonly InputAction m_Gameplay_Run;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
         public GameplayActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Speak => m_Wrapper.m_Gameplay_Speak;
+        public InputAction @Sit => m_Wrapper.m_Gameplay_Sit;
+        public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -336,6 +382,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Speak.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
                 @Speak.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
                 @Speak.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSpeak;
+                @Sit.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSit;
+                @Sit.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSit;
+                @Sit.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSit;
+                @Run.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRun;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -346,6 +398,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Speak.started += instance.OnSpeak;
                 @Speak.performed += instance.OnSpeak;
                 @Speak.canceled += instance.OnSpeak;
+                @Sit.started += instance.OnSit;
+                @Sit.performed += instance.OnSit;
+                @Sit.canceled += instance.OnSit;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
         }
     }
@@ -428,6 +486,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnSpeak(InputAction.CallbackContext context);
+        void OnSit(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
     public interface ISlidesControlActions
     {

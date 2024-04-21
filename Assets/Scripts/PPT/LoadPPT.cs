@@ -97,7 +97,7 @@ public class LoadPPT : MonoBehaviour
         {
             var slide = presentation.Slides[i];
             //var bitmap = slide.GetThumbnail(1f, 1f);
-            var bitmap = slide.GetThumbnail(new Size(1920, 1080));
+            var bitmap = slide.GetThumbnail(new Size(1280, 720));
             byte[] bytes = Bitmap2Byte(bitmap);
             _currentReadingProcess = 0;
             if (NetworkManager.singleton.isNetworkActive)
@@ -160,9 +160,10 @@ public class LoadPPT : MonoBehaviour
             _slideGameObjects.Add(slideGameObject);
         }
         var showImage = slideGameObject.GetComponent<Image>();
-        int width = 1920, height = 1080;
+        int width = 1280, height = 720;
         Texture2D texture2D = new Texture2D(width, height);
         texture2D.LoadImage(_byteTemp.ToArray());
+        //var size = texture2D.Size();
         Sprite sprite = Sprite.Create(texture2D, new Rect(0, 0, width, height), Vector2.zero);
         showImage.sprite = sprite;
         _byteTemp.Clear();
