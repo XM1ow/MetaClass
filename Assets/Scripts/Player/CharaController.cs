@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Ive;
 using UnityEngine.Windows;
+using System.Security.Policy;
 
-public class TmpPlayerController : MonoBehaviour
+public class CharaController : NetworkBehaviour
 {
     public float walkSpeed;
     public float runSpeed;
@@ -28,19 +29,18 @@ public class TmpPlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if (!_playerInputActions)
+        if(!_playerInputActions)
             _playerInputActions = ScriptableObject.CreateInstance<PlayerInputActions>();
         _playerInputActions.EnableGameplayInput();
     }
-
-    public void Start()
+    public override void OnStartLocalPlayer()
     {
+        base.OnStartLocalPlayer();
         animator = GetComponent<Animator>();
         cameraTransform = Camera.main.transform;
         rb = GetComponent<Rigidbody>();
         capCollider = GetComponent<CapsuleCollider>();
         boxCollider = GetComponent<BoxCollider>();
-        SetCamera();
     }
 
     private void OnEnable()
@@ -60,38 +60,55 @@ public class TmpPlayerController : MonoBehaviour
         _playerInputActions.onStopRun -= StopRun;
         _playerInputActions.onStartSit -= Sit;
     }
-    private void Move(Vector2 dir) { inputDir = dir.ToVector3XZ().normalized; }
+    private void Move(Vector2 dir)
+    {
+        if (isLocalPlayer) inputDir = dir.ToVector3XZ().normalized;
+    }
 
-    private void StopMove() { inputDir = Vector3.zero; }
+    private void StopMove()
+    {
+        if (isLocalPlayer) inputDir = Vector3.zero;
+    }
+    private void Run()
+    {
+        if(isLocalPlayer) run = true;
+    }
 
-    private void Run() { run = true; }
-
-    private void StopRun() { run = false; }
+    private void StopRun()
+    {
+       if(isLocalPlayer) run = false;
+    }
 
     private void Sit()
     {
-        if (sit)
+        if (isLocalPlayer)
         {
-            sit = false;
-            capCollider.enabled = true;
-            boxCollider.enabled = false;
-        }
-        else
-        {
-            if (chairTop == null) return;
-            sit = true;
-            transform.position = chairTop.position;
-            transform.forward = chairTop.forward;
-            capCollider.enabled = false;
-            boxCollider.enabled = true;
+            if (sit)
+            {
+                sit = false;
+                capCollider.enabled = true;
+                boxCollider.enabled = false;
+            }
+            else
+            {
+                if (chairTop == null) return;
+                sit = true;
+                transform.position = chairTop.position;
+                transform.forward = chairTop.forward;
+                capCollider.enabled = false;
+                boxCollider.enabled = true;
+            }
         }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        SetAnimator(); MoveModel();
-        //transform.position += velocity * Time.deltaTime;
+        if (isLocalPlayer)
+        {
+            SetAnimator();
+            MoveModel();
+        }
     }
 
     private void SetAnimator()

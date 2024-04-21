@@ -22,6 +22,8 @@ namespace CC
 
         private string SavePath;
 
+        private string parameterJsonString;
+
         #region Initialize script
 
         private void Start()
@@ -107,6 +109,28 @@ namespace CC
             }
         }
 
+        public void SaveParameterJsonString()
+        {
+            if (CharacterName != "")
+            {
+                //Load CC_SaveData from JSON file
+                string jsonLoad = File.ReadAllText(SavePath);
+                CC_SaveData CC_SaveData = JsonUtility.FromJson<CC_SaveData>(jsonLoad);
+
+                //Update prefab reference
+                StoredCharacterData.CharacterPrefab = gameObject.name;
+
+                //Find character index by CharacterName
+                int index = CC_SaveData.SavedCharacters.FindIndex(t => t.CharacterName == CharacterName);
+
+                //If found, overwrite save data
+                if (index != -1) CC_SaveData.SavedCharacters[index] = StoredCharacterData;
+                //Otherwise add new character
+                else CC_SaveData.SavedCharacters.Add(StoredCharacterData);
+                parameterJsonString = JsonUtility.ToJson(CC_SaveData, true);
+            }            
+        }
+
         //Instantiate a character from name, not used anywhere but this is how you would do it
         public void InstantiateCharacter(string name, Transform _transform)
         {
@@ -178,6 +202,48 @@ namespace CC
             {
                 createSaveFile();
                 LoadFromJSON();
+            }
+        }
+
+        public void SetCharacterName(string characterName)
+        {
+            CharacterName = characterName;
+        }
+
+        public void LoadFromParameterJsonString(string jsonLoad)
+        {
+            if (CharacterName != "")
+            {
+                CC_SaveData CC_SaveData = JsonUtility.FromJson<CC_SaveData>(jsonLoad);
+
+                //Find character index by CharacterName and load character data
+                int index = CC_SaveData.SavedCharacters.FindIndex(t => t.CharacterName == CharacterName);
+                if (index != -1) StoredCharacterData = CC_SaveData.SavedCharacters[index];
+                //If character is not found, load default character data
+                else
+                {
+                    StoredCharacterData = JsonUtility.FromJson<CC_CharacterData>(JsonUtility.ToJson(Presets.Presets[0]));
+                    StoredCharacterData.CharacterName = CharacterName;
+                }
+                //Resize lists
+                while (StoredCharacterData.HairNames.Count < HairObjects.Count)
+                {
+                    StoredCharacterData.HairNames.Add("");
+                }
+                while (StoredCharacterData.HairColor.Count < HairObjects.Count)
+                {
+                    StoredCharacterData.HairColor.Add(new CC_Property());
+                }
+                while (StoredCharacterData.ApparelNames.Count < ApparelObjects.Count)
+                {
+                    StoredCharacterData.ApparelNames.Add("");
+                }
+                while (StoredCharacterData.ApparelMaterials.Count < ApparelObjects.Count)
+                {
+                    StoredCharacterData.ApparelMaterials.Add(0);
+                }
+                //Apply stored data to character
+                ApplyCharacterVars(StoredCharacterData);
             }
         }
 

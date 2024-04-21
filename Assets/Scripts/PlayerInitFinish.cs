@@ -1,3 +1,5 @@
+using CC;
+using Dissonance.Integrations.MirrorIgnorance;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,11 +22,25 @@ public class PlayerInitFinish : MonoBehaviour
 
     public void Finish()
     {
-        if (man.activeSelf) man.transform.SetParent(null);
-        else female.transform.SetParent(null);
+        
         mainCamera.SetActive(true); 
         mainCamera.transform.SetParent(null);
-        enviroment.transform.SetParent(null);
+        enviroment.transform.SetParent(null); if (man.activeSelf)
+        {
+            man.transform.SetParent(null);
+            man.GetComponent<CharacterCustomization>().SaveParameterJsonString();
+            man.GetComponent<CharaController>().SetCamera();
+            //man.AddComponent<NetworkIdentity>();
+            //man.AddComponent<MirrorIgnorancePlayer>();
+        }
+        else
+        {
+            female.transform.SetParent(null);
+            female.GetComponent<CharacterCustomization>().SaveParameterJsonString();
+            female.GetComponent<CharaController>().SetCamera();
+            //female.AddComponent<NetworkIdentity>();
+            //female.AddComponent<MirrorIgnorancePlayer>();
+        }
         Destroy(gameObject);
     }
 }

@@ -7,16 +7,22 @@ using UnityEngine.Events;
 public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
 {
     private PlayerInput _playerInput;
+
     public event UnityAction<Vector2> onMovement;
+
     public event UnityAction onStopMove;
 
     public event UnityAction onToggleSpeak;
 
     public event UnityAction onReleaseSpeak;
 
-    public event UnityAction onStartRunning;
+    public event UnityAction onStartRun;
 
-    public event UnityAction onStopRunning;
+    public event UnityAction onStopRun;
+
+    public event UnityAction onStartSit;
+
+    public event UnityAction onStopSit;
     // general methods
     void OnEnable()
     {
@@ -66,11 +72,23 @@ public class PlayerInputActions : ScriptableObject, PlayerInput.IGameplayActions
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            onStartRunning?.Invoke();
+            onStartRun?.Invoke();
         }
         if (context.phase == InputActionPhase.Canceled)
         {
-            onStopRunning?.Invoke();
+            onStopRun?.Invoke();
+        }
+    }
+
+    public void OnSit(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            onStartSit?.Invoke();
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            onStopSit?.Invoke();
         }
     }
 }
