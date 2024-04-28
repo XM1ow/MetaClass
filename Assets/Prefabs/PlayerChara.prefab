@@ -169,8 +169,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  speed: 5
-  playerInputActions: {fileID: 11400000, guid: 43559789759e3834bac045240abc3959, type: 2}
+  walkSpeed: 3
+  runSpeed: 5
 --- !u!114 &-7338154819313045491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,7 +1658,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6148767429617031599}
-  m_LocalRotation: {x: 0.011894642, y: -0.000000009999341, z: -0.000000011040931, w: 0.99992925}
+  m_LocalRotation: {x: 0.011894642, y: -0.000000009999341, z: -0.000000011040931,
+    w: 0.99992925}
   m_LocalPosition: {x: -1.3624496e-13, y: 0.0028704882, z: 2.560622e-10}
   m_LocalScale: {x: 1, y: 0.9999998, z: 0.99999994}
   m_ConstrainProportionsScale: 0
