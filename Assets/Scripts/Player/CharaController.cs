@@ -41,6 +41,7 @@ public class CharaController : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         capCollider = GetComponent<CapsuleCollider>();
         boxCollider = GetComponent<BoxCollider>();
+        SetCamera();
     }
 
     private void OnEnable()

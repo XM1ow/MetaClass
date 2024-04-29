@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
@@ -16,6 +17,7 @@ public class INetworkHUD : MonoBehaviour
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
+    public Button characterCustomizeButton;
     public Button settingButton;
     public Button quitButton;
     private GameObject _buttonParent;
@@ -36,6 +38,7 @@ public class INetworkHUD : MonoBehaviour
         {
             startButton = _buttonParent.transform.Find("Host Room").GetComponent<Button>();
             clientButton = _buttonParent.transform.Find("Join Room").GetComponent<Button>();
+            characterCustomizeButton = _buttonParent.transform.Find("Character Customize").GetComponent<Button>();
             settingButton = _buttonParent.transform.Find("Settings").GetComponent<Button>();
             quitButton = _buttonParent.transform.Find("Quit").GetComponent<Button>();
         }
@@ -53,6 +56,11 @@ public class INetworkHUD : MonoBehaviour
         if(clientButton)
         {
             clientButton.onClick.AddListener(CallClientUI);
+        }
+
+        if (characterCustomizeButton)
+        {
+            characterCustomizeButton.onClick.AddListener(CharacterCustomize);
         }
         if(settingButton)
         {
@@ -101,6 +109,9 @@ public class INetworkHUD : MonoBehaviour
         _buttonParent.SetActive(false);
         joinRoomPanel.SetActive(true);
     }
-    
-    
+
+    private void CharacterCustomize()
+    {
+        SceneManager.LoadSceneAsync("Scenes/CharacterCustomization");
+    }
 }
