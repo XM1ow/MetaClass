@@ -20613,6 +20613,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bc0d68523ede048a98de573dac72e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  malePrefab: {fileID: 1269493389004282292, guid: 0d189a78b538c2940948d0c7aaadb0db,
+    type: 3}
+  femalePrefab: {fileID: 8891328506034858952, guid: 0a83337d683c95d4c8778907857b1d50,
+    type: 3}
+  mainMenu: {fileID: 370119261}
+  playerCustomization: {fileID: 458799023}
 --- !u!4 &458799025
 Transform:
   m_ObjectHideFlags: 0
