@@ -9,7 +9,7 @@ namespace CC
         public SkinnedMeshRenderer MainMesh;
         public GameObject UI;
         public string CharacterName;
-        public bool Autoload = false;
+        public bool Autoload = true;
 
         public List<scrObj_Hair> HairTables = new List<scrObj_Hair>();
         private List<GameObject> HairObjects = new List<GameObject>();
