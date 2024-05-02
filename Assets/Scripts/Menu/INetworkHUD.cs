@@ -13,7 +13,8 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(NetworkManager))]
 public class INetworkHUD : MonoBehaviour
 {
-    NetworkManager _manager;
+    NetworkManager _manager; 
+    public GameObject mainMenu;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
@@ -23,12 +24,12 @@ public class INetworkHUD : MonoBehaviour
     private GameObject _buttonParent;
     [Header("Join Room Panel")] 
     public GameObject joinRoomPanel;
-
     private TMP_InputField _serverAddress;
     private Button _connectButton;
     private Button _returnButton;
     [Header("Settings Panel")]
     public GameObject settingPanel;
+    [Header("Charecter Customization")] public GameObject playerCustomization;
     void Awake()
     {
         _manager = GetComponent<NetworkManager>();
@@ -112,6 +113,14 @@ public class INetworkHUD : MonoBehaviour
 
     private void CharacterCustomize()
     {
-        SceneManager.LoadSceneAsync("Scenes/CharacterCustomization");
+        if (mainMenu && playerCustomization)
+        {
+            mainMenu.SetActive(false);
+            playerCustomization.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("main menu or player customization game object is null");
+        }
     }
 }
