@@ -21,11 +21,12 @@ public class PlayerInitFinish : MonoBehaviour
     {
         female = transform.GetChild(1).GetChild(0).gameObject;
         male = transform.GetChild(1).GetChild(1).gameObject;
+        NetworkManager.singleton.spawnPrefabs.Add(malePrefab);
+        NetworkManager.singleton.spawnPrefabs.Add(femalePrefab);
     }
 
     public void Finish()
     {
-        
         if (male.activeSelf)
         {
             male.GetComponent<CharacterCustomization>().SaveToJSON();
