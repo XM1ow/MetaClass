@@ -38,7 +38,9 @@ public class PlayerInitFinish : MonoBehaviour
                 CharacterName = maleCC.CharacterName,
                 CharacterData = maleCC.StoredCharacterData
             };
-            _networkHUD.MyCharactermMessage = message;
+            // spawning character
+            NetworkClient.Send(message);
+            //_networkHUD.MyCharactermMessage = message;
         }
         else
         {
@@ -51,8 +53,11 @@ public class PlayerInitFinish : MonoBehaviour
                 CharacterName = femaleCC.CharacterName,
                 CharacterData = femaleCC.StoredCharacterData
             };
-            _networkHUD.MyCharactermMessage = message;
+            // spawning character
+            NetworkClient.Send(message);
+            //_networkHUD.MyCharactermMessage = message;
         }
+        
         // return to menu
         if (mainMenu && playerCustomization)
         {

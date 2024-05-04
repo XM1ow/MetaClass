@@ -7,16 +7,15 @@ using CC;
 
 public class INetworkManager : NetworkManager
 {
-    public CharacterCustomizationNetworkMessage localCharacterDataMessage;
-    public override void Start()
-    {
-        base.Start();
-        NetworkServer.RegisterHandler<CharacterCustomizationNetworkMessage>(OnCreateCharecter);
-    }
+    public CharacterOutlookSync characterOutlookSyncManager;
+
+    public List<GameObject> playersList = new ();
+    public List<CharacterCustomizationNetworkMessage> messagesList = new();
 
     public override void OnStartServer()
     {
         base.OnStartServer();
+        NetworkServer.RegisterHandler<CharacterCustomizationNetworkMessage>(OnCreateCharecter, false);
         Debug.Log("Server Started");
     }
 
@@ -29,7 +28,7 @@ public class INetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        NetworkClient.Send(localCharacterDataMessage);
+        //NetworkClient.Send(localCharacterDataMessage);
         Debug.Log("Connected to Server");
     }
 
@@ -41,16 +40,33 @@ public class INetworkManager : NetworkManager
 
     void OnCreateCharecter(NetworkConnectionToClient conn, CharacterCustomizationNetworkMessage message)
     {
-        var femalePrefab = spawnPrefabs[0];
-        var malePrefab = spawnPrefabs[1];
-        Debug.Log($"message prefab is {message.PrefabName}");
-        var player = Instantiate(message.PrefabName is PlayerPrefabName.Female ? femalePrefab : malePrefab);
-
-        var playerCustom = player.GetComponent<CharacterCustomization>();
+        Debug.Log("Creating Character");
+        var player = Instantiate(message.PrefabName is PlayerPrefabName.Female ? spawnPrefabs[1] : spawnPrefabs[0]);
+        
+        /*var playerCustom = player.GetComponent<CharacterCustomization>();
         playerCustom.CharacterName = message.CharacterName;
         playerCustom.PureInitialize();
-        playerCustom.ApplyCharacterVars(message.CharacterData);
+        playerCustom.ApplyCharacterVars(message.CharacterData);*/
+        NetworkServer.Spawn(player, conn);
         NetworkServer.AddPlayerForConnection(conn, player);
+        for (int i = playersList.Count - 1; i > 0; i--)
+        {
+            if (!playersList[i])
+            {
+                playersList.RemoveAt(i);
+                messagesList.RemoveAt(i);
+            }
+        }
+        
+        playersList.Add(player);
+        messagesList.Add(message);
+
+        var messages = new ServerCharacterOutlookMessages
+        {
+            Players = playersList,
+            Messages = messagesList
+        };
+        characterOutlookSyncManager.CmdSetPlayerOutlook(messages);
     }
 
     public void InstantiateCharacterByName(CC_CharacterData characterData)

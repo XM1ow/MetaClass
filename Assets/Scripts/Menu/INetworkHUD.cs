@@ -7,19 +7,19 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
 [RequireComponent(typeof(NetworkManager))]
-public class INetworkHUD : MonoBehaviour
+public class INetworkHUD : NetworkBehaviour
 {
     INetworkManager _manager; 
     public GameObject mainMenu;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
-    public Button characterCustomizeButton;
     public Button settingButton;
     public Button quitButton;
     private GameObject _buttonParent;
@@ -42,7 +42,6 @@ public class INetworkHUD : MonoBehaviour
         {
             startButton = _buttonParent.transform.Find("Host Room").GetComponent<Button>();
             clientButton = _buttonParent.transform.Find("Join Room").GetComponent<Button>();
-            characterCustomizeButton = _buttonParent.transform.Find("Character Customize").GetComponent<Button>();
             settingButton = _buttonParent.transform.Find("Settings").GetComponent<Button>();
             quitButton = _buttonParent.transform.Find("Quit").GetComponent<Button>();
         }
@@ -53,7 +52,7 @@ public class INetworkHUD : MonoBehaviour
                 if(!NetworkClient.isConnected && !NetworkServer.active)
                 {
                     _manager.StartHost(); // client + server
-                    _manager.localCharacterDataMessage = MyCharactermMessage;
+                    //_manager.localCharacterDataMessage = MyCharactermMessage;
                     Debug.Log($"Starting server at {NetworkManager.singleton.networkAddress}");
                 }
             });
@@ -61,11 +60,6 @@ public class INetworkHUD : MonoBehaviour
         if(clientButton)
         {
             clientButton.onClick.AddListener(CallClientUI);
-        }
-
-        if (characterCustomizeButton)
-        {
-            characterCustomizeButton.onClick.AddListener(CharacterCustomize);
         }
         if(settingButton)
         {
@@ -86,7 +80,7 @@ public class INetworkHUD : MonoBehaviour
                 _connectButton.onClick.AddListener(() =>
                 {
                     _manager.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
-                    _manager.localCharacterDataMessage = MyCharactermMessage;
+                    //_manager.localCharacterDataMessage = MyCharactermMessage;
                     _manager.StartClient();
                     Debug.Log($"Connecting to {_manager.networkAddress}");
                     joinRoomPanel.SetActive(false);
@@ -114,18 +108,5 @@ public class INetworkHUD : MonoBehaviour
     {
         _buttonParent.SetActive(false);
         joinRoomPanel.SetActive(true);
-    }
-
-    private void CharacterCustomize()
-    {
-        if (mainMenu && playerCustomization)
-        {
-            mainMenu.SetActive(false);
-            playerCustomization.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("main menu or player customization game object is null");
-        }
     }
 }
