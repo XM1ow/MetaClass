@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ModelView.unity
     guid: c2408429b6e472848bcc4b997d3f34df
+  - enabled: 1
+    path: Assets/Scenes/ClassRoom1.unity
+    guid: f6145a7a547ca3943ab3da9741a88986
   m_configObjects: {}

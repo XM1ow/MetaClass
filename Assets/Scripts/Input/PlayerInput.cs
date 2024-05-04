@@ -273,6 +273,34 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Global"",
+            ""id"": ""b9811d12-5225-4127-b6e4-f36d7509c0d3"",
+            ""actions"": [
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""130d63f5-10fe-41f1-bd7e-329237c424ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""121af61b-8c1b-4399-b6cd-df72aa847734"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -296,6 +324,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_SlidesControl_PreviousPage = m_SlidesControl.FindAction("PreviousPage", throwIfNotFound: true);
         m_SlidesControl_NextPage = m_SlidesControl.FindAction("NextPage", throwIfNotFound: true);
         m_SlidesControl_Load = m_SlidesControl.FindAction("Load", throwIfNotFound: true);
+        // Global
+        m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
+        m_Global_Menu = m_Global.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -473,6 +504,39 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         }
     }
     public SlidesControlActions @SlidesControl => new SlidesControlActions(this);
+
+    // Global
+    private readonly InputActionMap m_Global;
+    private IGlobalActions m_GlobalActionsCallbackInterface;
+    private readonly InputAction m_Global_Menu;
+    public struct GlobalActions
+    {
+        private @PlayerInput m_Wrapper;
+        public GlobalActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Menu => m_Wrapper.m_Global_Menu;
+        public InputActionMap Get() { return m_Wrapper.m_Global; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GlobalActions set) { return set.Get(); }
+        public void SetCallbacks(IGlobalActions instance)
+        {
+            if (m_Wrapper.m_GlobalActionsCallbackInterface != null)
+            {
+                @Menu.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMenu;
+            }
+            m_Wrapper.m_GlobalActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
+            }
+        }
+    }
+    public GlobalActions @Global => new GlobalActions(this);
     private int m_DefaultSchemeIndex = -1;
     public InputControlScheme DefaultScheme
     {
@@ -496,5 +560,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnPreviousPage(InputAction.CallbackContext context);
         void OnNextPage(InputAction.CallbackContext context);
         void OnLoad(InputAction.CallbackContext context);
+    }
+    public interface IGlobalActions
+    {
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

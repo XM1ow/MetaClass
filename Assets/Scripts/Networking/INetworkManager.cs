@@ -42,7 +42,7 @@ public class INetworkManager : NetworkManager
     {
         Debug.Log("Creating Character");
         var player = Instantiate(message.PrefabName is PlayerPrefabName.Female ? spawnPrefabs[1] : spawnPrefabs[0]);
-        
+        DontDestroyOnLoad(player);
         /*var playerCustom = player.GetComponent<CharacterCustomization>();
         playerCustom.CharacterName = message.CharacterName;
         playerCustom.PureInitialize();

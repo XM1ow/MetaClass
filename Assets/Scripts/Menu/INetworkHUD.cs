@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using CC;
-using DG.Tweening;
-using DG.Tweening.Core.Easing;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
 [RequireComponent(typeof(NetworkManager))]
 public class INetworkHUD : NetworkBehaviour
 {
-    INetworkManager _manager; 
-    public GameObject mainMenu;
+    INetworkManager _manager;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
@@ -30,9 +22,6 @@ public class INetworkHUD : NetworkBehaviour
     private Button _returnButton;
     [Header("Settings Panel")]
     public GameObject settingPanel;
-    [Header("Charecter Customization")] 
-    public GameObject playerCustomization;
-    public CharacterCustomizationNetworkMessage MyCharactermMessage;
     void Awake()
     {
         _manager = GetComponent<INetworkManager>();
