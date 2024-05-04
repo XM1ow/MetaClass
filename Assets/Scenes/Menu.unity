@@ -20619,6 +20619,7 @@ MonoBehaviour:
     type: 3}
   mainMenu: {fileID: 370119261}
   playerCustomization: {fileID: 458799023}
+  _networkHUD: {fileID: 1334116530}
 --- !u!4 &458799025
 Transform:
   m_ObjectHideFlags: 0
