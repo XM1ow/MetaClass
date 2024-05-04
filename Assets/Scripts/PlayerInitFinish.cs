@@ -17,25 +17,41 @@ public class PlayerInitFinish : MonoBehaviour
     public GameObject mainMenu;
     public GameObject playerCustomization;
 
+    public INetworkHUD _networkHUD;
+
     private void Start()
     {
         female = transform.GetChild(1).GetChild(0).gameObject;
         male = transform.GetChild(1).GetChild(1).gameObject;
-        NetworkManager.singleton.spawnPrefabs.Add(malePrefab);
-        NetworkManager.singleton.spawnPrefabs.Add(femalePrefab);
     }
 
     public void Finish()
     {
         if (male.activeSelf)
         {
-            male.GetComponent<CharacterCustomization>().SaveToJSON();
-            NetworkManager.singleton.playerPrefab = malePrefab;
+            var maleCC = male.GetComponent<CharacterCustomization>();
+            maleCC.SaveToJSON();
+            
+            var message = new CharacterCustomizationNetworkMessage
+            {
+                PrefabName = PlayerPrefabName.Male,
+                CharacterName = maleCC.CharacterName,
+                CharacterData = maleCC.StoredCharacterData
+            };
+            _networkHUD.MyCharactermMessage = message;
         }
         else
         {
-            female.GetComponent<CharacterCustomization>().SaveToJSON();
-            NetworkManager.singleton.playerPrefab = femalePrefab;
+            var femaleCC = female.GetComponent<CharacterCustomization>();
+            femaleCC.SaveToJSON();
+            
+            var message = new CharacterCustomizationNetworkMessage
+            {
+                PrefabName = PlayerPrefabName.Female,
+                CharacterName = femaleCC.CharacterName,
+                CharacterData = femaleCC.StoredCharacterData
+            };
+            _networkHUD.MyCharactermMessage = message;
         }
         // return to menu
         if (mainMenu && playerCustomization)

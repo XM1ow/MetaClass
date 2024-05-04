@@ -2945,6 +2945,7 @@ GameObject:
   - component: {fileID: 6033147279637083966}
   - component: {fileID: 2100801572000560857}
   - component: {fileID: 1146109570680968288}
+  - component: {fileID: 8379171623057594613}
   m_Layer: 0
   m_Name: FemalePlayer
   m_TagString: Player
@@ -3038,7 +3039,7 @@ MonoBehaviour:
   MainMesh: {fileID: 3155512424262014388}
   UI: {fileID: 0}
   CharacterName: Female
-  Autoload: 1
+  Autoload: 0
   HairTables:
   - {fileID: 11400000, guid: 8ce6afb144c8cb04fb2dbbfc45fb7e7a, type: 2}
   - {fileID: 11400000, guid: 2fdc0989eb579584b854adc9fbc9d729, type: 2}
@@ -3252,6 +3253,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.01, z: 0.3}
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &8379171623057594613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8891328506034858952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 2796634569477892872}
 --- !u!1 &9211694644445193287
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,13 @@ using CC;
 
 public class INetworkManager : NetworkManager
 {
+    public CharacterCustomizationNetworkMessage localCharacterDataMessage;
+    public override void Start()
+    {
+        base.Start();
+        NetworkServer.RegisterHandler<CharacterCustomizationNetworkMessage>(OnCreateCharecter);
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -22,8 +29,7 @@ public class INetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        var savePath = Application.dataPath + "/CharacterCustomizer.json";
-        
+        NetworkClient.Send(localCharacterDataMessage);
         Debug.Log("Connected to Server");
     }
 
@@ -33,35 +39,24 @@ public class INetworkManager : NetworkManager
         Debug.Log("Disconnected from Server");
     }
 
-    void OnCreateCharecter()
+    void OnCreateCharecter(NetworkConnectionToClient conn, CharacterCustomizationNetworkMessage message)
     {
-        
-    }
-    
-    public void InstantiateCharacterByName(string savePath, string characterName, Transform parentTransform)
-    {
-        if (File.Exists(savePath))
-        {
-            //Load CC_SaveData from JSON file
-            string jsonLoad = File.ReadAllText(savePath);
-            var ccSaveData = JsonUtility.FromJson<CC_SaveData>(jsonLoad);
+        var femalePrefab = spawnPrefabs[0];
+        var malePrefab = spawnPrefabs[1];
+        Debug.Log($"message prefab is {message.PrefabName}");
+        var player = Instantiate(message.PrefabName is PlayerPrefabName.Female ? femalePrefab : malePrefab);
 
-            //Find character index by CharacterName and load character data
-            int index = ccSaveData.SavedCharacters.FindIndex(t => t.CharacterName == characterName);
-            if (index != -1)
-            {
-                //Instantiate character from resources folder, set name and initialize the script
-                var newCharacter = (GameObject)Instantiate(Resources.Load(ccSaveData.SavedCharacters[index].CharacterPrefab), parentTransform);
-                newCharacter.GetComponent<CharacterCustomization>().CharacterName = characterName;
-                newCharacter.GetComponent<CharacterCustomization>().Initialize();
-            }
-        }
+        var playerCustom = player.GetComponent<CharacterCustomization>();
+        playerCustom.CharacterName = message.CharacterName;
+        playerCustom.PureInitialize();
+        playerCustom.ApplyCharacterVars(message.CharacterData);
+        NetworkServer.AddPlayerForConnection(conn, player);
     }
-    
-    public void InstantiateCharacterByName(CC_CharacterData characterData, Transform parentTransform)
+
+    public void InstantiateCharacterByName(CC_CharacterData characterData)
     {
         //Instantiate character from resources folder, set name and initialize the script
-        var newCharacter = (GameObject)Instantiate(Resources.Load(characterData.CharacterPrefab), parentTransform);
+        var newCharacter = (GameObject)Instantiate(Resources.Load(characterData.CharacterPrefab));
         newCharacter.GetComponent<CharacterCustomization>().CharacterName = characterData.CharacterName;
         newCharacter.GetComponent<CharacterCustomization>().Initialize();
     }

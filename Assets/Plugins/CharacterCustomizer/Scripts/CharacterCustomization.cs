@@ -9,7 +9,7 @@ namespace CC
         public SkinnedMeshRenderer MainMesh;
         public GameObject UI;
         public string CharacterName;
-        public bool Autoload = true;
+        public bool Autoload = false;
 
         public List<scrObj_Hair> HairTables = new List<scrObj_Hair>();
         private List<GameObject> HairObjects = new List<GameObject>();
@@ -63,6 +63,49 @@ namespace CC
 
             //Initialize all UI elements (sliders, pickers etc)
             if (UI != null) UI.GetComponent<CC_UI_Util>().Initialize(this);
+        }
+
+        public void PureInitialize()
+        {
+            //Add a blendshape manager script to every mesh
+            foreach (var mesh in gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                mesh.gameObject.AddComponent<BlendshapeManager>().parseBlendshapes();
+            }
+
+            //Adds an empty hair object for each hair table
+            for (int i = 0; i < HairTables.Count; i++)
+            {
+                GameObject newHairObject = new GameObject();
+                HairObjects.Add(newHairObject);
+                Destroy(newHairObject);
+            }
+
+            //Adds an empty apparel object for each apparel table
+            for (int i = 0; i < ApparelTables.Count; i++)
+            {
+                GameObject newApparelObject = new GameObject();
+                ApparelObjects.Add(newApparelObject);
+                Destroy(newApparelObject);
+            }
+            
+            //Resize lists
+            while (StoredCharacterData.HairNames.Count < HairObjects.Count)
+            {
+                StoredCharacterData.HairNames.Add("");
+            }
+            while (StoredCharacterData.HairColor.Count < HairObjects.Count)
+            {
+                StoredCharacterData.HairColor.Add(new CC_Property());
+            }
+            while (StoredCharacterData.ApparelNames.Count < ApparelObjects.Count)
+            {
+                StoredCharacterData.ApparelNames.Add("");
+            }
+            while (StoredCharacterData.ApparelMaterials.Count < ApparelObjects.Count)
+            {
+                StoredCharacterData.ApparelMaterials.Add(0);
+            }
         }
 
         #endregion Initialize script

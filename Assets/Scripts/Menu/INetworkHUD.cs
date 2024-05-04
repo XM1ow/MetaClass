@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CC;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using Mirror;
@@ -13,7 +14,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(NetworkManager))]
 public class INetworkHUD : MonoBehaviour
 {
-    NetworkManager _manager; 
+    INetworkManager _manager; 
     public GameObject mainMenu;
     [Header("Main Buttons")]
     public Button startButton;
@@ -29,10 +30,12 @@ public class INetworkHUD : MonoBehaviour
     private Button _returnButton;
     [Header("Settings Panel")]
     public GameObject settingPanel;
-    [Header("Charecter Customization")] public GameObject playerCustomization;
+    [Header("Charecter Customization")] 
+    public GameObject playerCustomization;
+    public CharacterCustomizationNetworkMessage MyCharactermMessage;
     void Awake()
     {
-        _manager = GetComponent<NetworkManager>();
+        _manager = GetComponent<INetworkManager>();
         // Main Panel
         _buttonParent = GameObject.Find("Buttons");
         if (_buttonParent)
@@ -50,6 +53,7 @@ public class INetworkHUD : MonoBehaviour
                 if(!NetworkClient.isConnected && !NetworkServer.active)
                 {
                     _manager.StartHost(); // client + server
+                    _manager.localCharacterDataMessage = MyCharactermMessage;
                     Debug.Log($"Starting server at {NetworkManager.singleton.networkAddress}");
                 }
             });
@@ -82,6 +86,7 @@ public class INetworkHUD : MonoBehaviour
                 _connectButton.onClick.AddListener(() =>
                 {
                     _manager.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
+                    _manager.localCharacterDataMessage = MyCharactermMessage;
                     _manager.StartClient();
                     Debug.Log($"Connecting to {_manager.networkAddress}");
                     joinRoomPanel.SetActive(false);

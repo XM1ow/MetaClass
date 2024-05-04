@@ -405,6 +405,7 @@ GameObject:
   - component: {fileID: 7002651486002552263}
   - component: {fileID: 586535862371834179}
   - component: {fileID: 8391281143079518528}
+  - component: {fileID: 6610886126704191870}
   m_Layer: 0
   m_Name: MalePlayer
   m_TagString: Player
@@ -498,7 +499,7 @@ MonoBehaviour:
   MainMesh: {fileID: 207928224719953654}
   UI: {fileID: 0}
   CharacterName: Male
-  Autoload: 1
+  Autoload: 0
   HairTables:
   - {fileID: 11400000, guid: b10d77c73c04a7d469483f00be54d50b, type: 2}
   - {fileID: 11400000, guid: 2fdc0989eb579584b854adc9fbc9d729, type: 2}
@@ -647,7 +648,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -695,6 +696,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.01, z: 0.3}
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &6610886126704191870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269493389004282292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 5491534992700021108}
 --- !u!1 &1285588102183854461
 GameObject:
   m_ObjectHideFlags: 0
