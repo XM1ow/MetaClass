@@ -22,8 +22,8 @@ public class SceneTransitionButton : MonoBehaviour
             tmp.text = sceneName;
             button.onClick.AddListener(() =>
             {
-                NetworkServer.isLoadingScene = true;
-                NetworkManager.singleton.ServerChangeScene(sceneName);
+                if(NetworkManager.singleton.isNetworkActive && NetworkServer.active)
+                    NetworkManager.singleton.ServerChangeScene(sceneName);
                 /*if (NetworkServer.active)
                 {
                     NetworkServer.SendToAll(new SceneMessage{sceneName = sceneName});
