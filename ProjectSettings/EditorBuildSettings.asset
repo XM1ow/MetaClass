@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ClassRoom1.unity
     guid: f6145a7a547ca3943ab3da9741a88986
+  - enabled: 1
+    path: Assets/Scenes/ClassRoom2.unity
+    guid: 167d36bcf09cb10458558aa66a2f8e7f
   m_configObjects: {}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,6 +40,7 @@ public class ESCPanel : MonoBehaviour
         {
             returnToMenuButton.onClick.AddListener(()=>
             {
+                Destroy(NetworkManager.singleton);
                 SceneManager.LoadScene("Scenes/Menu");
             });
         }

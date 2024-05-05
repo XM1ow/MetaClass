@@ -33,5 +33,25 @@ public class CharacterOutlookSync : NetworkBehaviour
             playerCustom.PureInitialize();
             playerCustom.ApplyCharacterVars(message.CharacterData);
         }
+        
     }
+    
+    /*[Command(requiresAuthority = false)]
+    public void CmdInitNetworkManager(CharacterCustomizationNetworkMessage message)
+    {
+        InitNetworkManager(message);
+    }
+
+    [ClientRpc]
+    public void InitNetworkManager(CharacterCustomizationNetworkMessage message)
+    {
+        var INetworkManager = NetworkManager.singleton.GetComponent<INetworkManager>();
+        if (INetworkManager)
+        {
+            INetworkManager.playerPrefab = message.PrefabName is PlayerPrefabName.Female ? 
+                INetworkManager.spawnPrefabs[1] : INetworkManager.spawnPrefabs[0];
+            //autoCreatePlayer = true;
+            INetworkManager.hasInit = true;
+        }
+    }*/
 }

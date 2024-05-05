@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,7 +22,12 @@ public class SceneTransitionButton : MonoBehaviour
             tmp.text = sceneName;
             button.onClick.AddListener(() =>
             {
-                SceneManager.LoadScene(sceneName);
+                NetworkServer.isLoadingScene = true;
+                NetworkManager.singleton.ServerChangeScene(sceneName);
+                /*if (NetworkServer.active)
+                {
+                    NetworkServer.SendToAll(new SceneMessage{sceneName = sceneName});
+                }*/
             });
         }
     }

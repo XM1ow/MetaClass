@@ -7,10 +7,14 @@ using CC;
 
 public class INetworkManager : NetworkManager
 {
+    public CharacterCustomizationNetworkMessage myCharacterMessage;
+    
     public CharacterOutlookSync characterOutlookSyncManager;
 
     public List<GameObject> playersList = new ();
     public List<CharacterCustomizationNetworkMessage> messagesList = new();
+
+    public bool hasInit = false;
 
     public override void OnStartServer()
     {
@@ -38,11 +42,24 @@ public class INetworkManager : NetworkManager
         Debug.Log("Disconnected from Server");
     }
 
-    void OnCreateCharecter(NetworkConnectionToClient conn, CharacterCustomizationNetworkMessage message)
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        base.OnServerSceneChanged(sceneName);
+        Debug.Log("Server Scene Changed");
+    }
+
+    public override void OnClientSceneChanged()
+    {
+        base.OnClientSceneChanged();
+        Debug.Log("Client Scene Changed");
+        if(hasInit)
+            NetworkClient.Send(myCharacterMessage);
+    }
+
+    void OnCreateCharecter(NetworkConnectionToClient conn, CharacterCustomizationNetworkMessage message) 
     {
         Debug.Log("Creating Character");
         var player = Instantiate(message.PrefabName is PlayerPrefabName.Female ? spawnPrefabs[1] : spawnPrefabs[0]);
-        DontDestroyOnLoad(player);
         /*var playerCustom = player.GetComponent<CharacterCustomization>();
         playerCustom.CharacterName = message.CharacterName;
         playerCustom.PureInitialize();
@@ -68,7 +85,7 @@ public class INetworkManager : NetworkManager
         };
         characterOutlookSyncManager.CmdSetPlayerOutlook(messages);
     }
-
+    
     public void InstantiateCharacterByName(CC_CharacterData characterData)
     {
         //Instantiate character from resources folder, set name and initialize the script

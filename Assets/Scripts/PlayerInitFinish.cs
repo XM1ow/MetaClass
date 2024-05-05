@@ -17,12 +17,13 @@ public class PlayerInitFinish : MonoBehaviour
     public GameObject mainMenu;
     public GameObject playerCustomization;
 
-    public INetworkHUD _networkHUD;
+    public INetworkManager networkManager;
 
     private void Start()
     {
         female = transform.GetChild(1).GetChild(0).gameObject;
         male = transform.GetChild(1).GetChild(1).gameObject;
+        networkManager = NetworkManager.singleton.transform.GetComponent<INetworkManager>();
     }
 
     public void Finish()
@@ -40,7 +41,8 @@ public class PlayerInitFinish : MonoBehaviour
             };
             // spawning character
             NetworkClient.Send(message);
-            //_networkHUD.MyCharactermMessage = message;
+            networkManager.myCharacterMessage = message;
+            networkManager.hasInit = true;
         }
         else
         {
@@ -55,7 +57,8 @@ public class PlayerInitFinish : MonoBehaviour
             };
             // spawning character
             NetworkClient.Send(message);
-            //_networkHUD.MyCharactermMessage = message;
+            networkManager.myCharacterMessage = message;
+            networkManager.hasInit = true;
         }
         
         // return to menu

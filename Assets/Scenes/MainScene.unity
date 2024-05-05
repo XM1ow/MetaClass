@@ -68730,7 +68730,7 @@ MonoBehaviour:
     type: 3}
   mainMenu: {fileID: 989017211}
   playerCustomization: {fileID: 1235986748}
-  _networkHUD: {fileID: 0}
+  networkManager: {fileID: 0}
 --- !u!4 &1235986750
 Transform:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class CharaController : NetworkBehaviour
     private PlayerInputActions _playerInputActions;
     private Vector3 inputDir;
     private Animator animator;
-    private Transform cameraTransform;
+    //private Transform cameraTransform;
     private Rigidbody rb;
     private Vector3 velocity;
     private Transform chairTop;
@@ -37,12 +37,12 @@ public class CharaController : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         animator = GetComponent<Animator>();
-        cameraTransform = Camera.main.transform;
         rb = GetComponent<Rigidbody>();
         capCollider = GetComponent<CapsuleCollider>();
         boxCollider = GetComponent<BoxCollider>();
         SetCamera();
     }
+    
 
     private void OnEnable()
     {
@@ -130,6 +130,7 @@ public class CharaController : NetworkBehaviour
             return;
         }
         nowSpeed = run ? runSpeed : walkSpeed;
+        var cameraTransform = Camera.main.transform;
         Vector3 cameraForward = cameraTransform.forward - Vector3.Dot(cameraTransform.forward, Vector3.up) * Vector3.up;
         float angleTmp = Vector3.Angle(Vector3.forward, inputDir);
         if (inputDir.x < 0) angleTmp = -angleTmp;
