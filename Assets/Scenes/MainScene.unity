@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1058.8186, g: 1097.814, b: 1234.6364, a: 1}
+  m_IndirectSpecularColor: {r: 1058.8179, g: 1097.8262, b: 1234.6444, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -81559,7 +81559,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   thirdCameraCenterOffset: {x: 0, y: 1.4, z: 0}
-  firstCameraCenterOffset: {x: 0, y: 3, z: 0}
+  firstCameraCenterOffset: {x: 0, y: 1.5, z: 0}
   thirdCameraRadius: 2
   firstCameraRadius: 1
   initVerticalAngle: 20
