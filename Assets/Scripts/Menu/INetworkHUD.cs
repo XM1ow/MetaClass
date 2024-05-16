@@ -12,7 +12,7 @@ public class INetworkHUD : NetworkBehaviour
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
-    public Button settingButton;
+    public Button teachingButton;
     public Button quitButton;
     private GameObject _buttonParent;
     [Header("Join Room Panel")] 
@@ -20,8 +20,9 @@ public class INetworkHUD : NetworkBehaviour
     private TMP_InputField _serverAddress;
     private Button _connectButton;
     private Button _returnButton;
+    private Button _teachingReturnButton;
     [Header("Settings Panel")]
-    public GameObject settingPanel;
+    public GameObject teachingPanel;
     void Awake()
     {
         _manager = GetComponent<INetworkManager>();
@@ -31,7 +32,7 @@ public class INetworkHUD : NetworkBehaviour
         {
             startButton = _buttonParent.transform.Find("Host Room").GetComponent<Button>();
             clientButton = _buttonParent.transform.Find("Join Room").GetComponent<Button>();
-            settingButton = _buttonParent.transform.Find("Settings").GetComponent<Button>();
+            teachingButton = _buttonParent.transform.Find("Teaching").GetComponent<Button>();
             quitButton = _buttonParent.transform.Find("Quit").GetComponent<Button>();
         }
         if (startButton)
@@ -50,9 +51,9 @@ public class INetworkHUD : NetworkBehaviour
         {
             clientButton.onClick.AddListener(CallClientUI);
         }
-        if(settingButton)
+        if(teachingButton)
         {
-            settingButton.onClick.AddListener(OnSettingButton);
+            teachingButton.onClick.AddListener(OnSettingButton);
         }
         if(quitButton)
         {
@@ -84,9 +85,23 @@ public class INetworkHUD : NetworkBehaviour
                 });
             }
         }
+        if (teachingPanel)
+        {
+            _teachingReturnButton = teachingPanel.transform.Find("Back").GetComponent<Button>();
+            if (_teachingReturnButton)
+            {
+                _teachingReturnButton.onClick.AddListener(() =>
+                {
+                    teachingPanel.SetActive(false);
+                    _buttonParent.SetActive(true);
+                });
+            }
+        }
     }
     private void OnSettingButton()
     {
+        _buttonParent.SetActive(false);
+        teachingPanel.SetActive(true);
     }
 
     private void OnQuitButton()

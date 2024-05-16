@@ -1,6 +1,7 @@
 {
     "SavedCharacters": [
         {
+<<<<<<< HEAD
             "CharacterName": "Male",
             "CharacterPrefab": "MalePlayer",
             "Blendshapes": [
@@ -578,6 +579,8 @@
             ]
         },
         {
+=======
+>>>>>>> 52ee593dfabce7a2bedffc0cc9e8fb777ac442de
             "CharacterName": "Female",
             "CharacterPrefab": "FemalePlayer",
             "Blendshapes": [
@@ -1080,7 +1083,11 @@
                 {
                     "propertyName": "_Freckles",
                     "stringValue": "",
+<<<<<<< HEAD
                     "floatValue": 0.8528062105178833,
+=======
+                    "floatValue": 0.0,
+>>>>>>> 52ee593dfabce7a2bedffc0cc9e8fb777ac442de
                     "materialIndex": -1,
                     "meshTag": ""
                 },
@@ -1101,7 +1108,11 @@
                 {
                     "propertyName": "_Skin_Tint_Alpha",
                     "stringValue": "",
+<<<<<<< HEAD
                     "floatValue": 1.0,
+=======
+                    "floatValue": 0.0,
+>>>>>>> 52ee593dfabce7a2bedffc0cc9e8fb777ac442de
                     "materialIndex": -1,
                     "meshTag": ""
                 }
@@ -1125,6 +1136,7 @@
             "ColorProperties": [
                 {
                     "propertyName": "_Skin_Tint",
+<<<<<<< HEAD
                     "stringValue": "00FFC9FF",
                     "floatValue": 0.0,
                     "materialIndex": -1,
@@ -1695,6 +1707,9 @@
                 {
                     "propertyName": "_Skin_Tint",
                     "stringValue": "FF0000FF",
+=======
+                    "stringValue": "834141FF",
+>>>>>>> 52ee593dfabce7a2bedffc0cc9e8fb777ac442de
                     "floatValue": 0.0,
                     "materialIndex": -1,
                     "meshTag": ""
