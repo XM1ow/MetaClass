@@ -18,9 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ModelView.unity
     guid: c2408429b6e472848bcc4b997d3f34df
   - enabled: 1
-    path: Assets/Scenes/ClassRoom1.unity
+    path: Assets/Scenes/DancingRoom.unity
     guid: f6145a7a547ca3943ab3da9741a88986
   - enabled: 1
-    path: Assets/Scenes/ClassRoom2.unity
+    path: Assets/Scenes/ArtGallery.unity
     guid: 167d36bcf09cb10458558aa66a2f8e7f
   m_configObjects: {}

@@ -1933,7 +1933,12 @@ PrefabInstance:
     - target: {fileID: 555443838507020201, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
       propertyPath: sceneName
-      value: ClassRoom1
+      value: DancingRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235372567701966797, guid: 756a47161e05bf74ab34c0122b9d04b2,
+        type: 3}
+      propertyPath: m_text
+      value: "\u821E\u8E48\u5BA4"
       objectReference: {fileID: 0}
     - target: {fileID: 1235372568144058732, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
@@ -2063,7 +2068,22 @@ PrefabInstance:
     - target: {fileID: 555443838507020201, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
       propertyPath: sceneName
-      value: ClassRoom2
+      value: ArtGallery
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235372567701966797, guid: 756a47161e05bf74ab34c0122b9d04b2,
+        type: 3}
+      propertyPath: m_text
+      value: "\u827A\u672F\u9986"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235372567701966797, guid: 756a47161e05bf74ab34c0122b9d04b2,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235372567701966797, guid: 756a47161e05bf74ab34c0122b9d04b2,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1235372568144058732, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
@@ -2118,17 +2138,17 @@ PrefabInstance:
     - target: {fileID: 1235372568144058733, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.011431185
+      value: 0.10691672
       objectReference: {fileID: 0}
     - target: {fileID: 1235372568144058733, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.011431185
+      value: 0.10691672
       objectReference: {fileID: 0}
     - target: {fileID: 1235372568144058733, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.011431185
+      value: 0.10691672
       objectReference: {fileID: 0}
     - target: {fileID: 1235372568144058733, guid: 756a47161e05bf74ab34c0122b9d04b2,
         type: 3}
