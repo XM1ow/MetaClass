@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Statistic">
+    <option name="fileTypesIncluded" value="cs" />
+    <option name="excludedDirectories">
+      <list>
+        <option value="$PROJECT_DIR$/Builds" />
+        <option value="$PROJECT_DIR$/Library" />
+        <option value="$PROJECT_DIR$/Logs" />
+        <option value="$PROJECT_DIR$/obj" />
+        <option value="$PROJECT_DIR$/Packages" />
+        <option value="$PROJECT_DIR$/ProjectSettings" />
+        <option value="$PROJECT_DIR$/Temp" />
+        <option value="$PROJECT_DIR$/UserSettings" />
+        <option value="$PROJECT_DIR$/Assets/Models" />
+        <option value="$PROJECT_DIR$/Assets/ParrelSync" />
+        <option value="$PROJECT_DIR$/Assets/TextMesh Pro" />
+        <option value="$PROJECT_DIR$/Assets/Resources" />
+        <option value="C:/Program Files/Unity/Hub/Editor/2021.3.8f1c1/Editor/Data/Resources/PackageManager/BuiltInPackages" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Aspose.Slides.NET.18.10.0" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/AssetStoreOriginals" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/CharacterCustomizer" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Demigiant" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/HDRPDefaultResources" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Dissonance/Demo" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Dissonance/Editor" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Dissonance/Plugins" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Dissonance/Resources" />
+        <option value="$PROJECT_DIR$/Assets/Mirror/Editor" />
+        <option value="$PROJECT_DIR$/Assets/Mirror/Examples" />
+        <option value="$PROJECT_DIR$/Assets/Mirror/Plugins" />
+        <option value="$PROJECT_DIR$/Assets/Mirror/Presets" />
+        <option value="$PROJECT_DIR$/Assets/Mirror/Transports" />
+      </list>
+    </option>
+  </component>
+</project>

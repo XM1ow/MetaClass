@@ -30,5 +30,10 @@ public class SceneTransitionButton : MonoBehaviour
                 }*/
             });
         }
+
+        if (!NetworkManager.singleton.isNetworkActive || !NetworkServer.active)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -7,7 +7,6 @@ public class NetworkSlidesSyncManager : NetworkBehaviour
 {
     public LoadPPT localSlidesPlayer;
     
-    
     [Command(requiresAuthority = false)]
     public void CmdSendBytePackage(byte[] bytes, int index, bool isLastPackage)
     {
