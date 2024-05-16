@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1058.8179, g: 1097.8262, b: 1234.6444, a: 1}
+  m_IndirectSpecularColor: {r: 1058.8186, g: 1097.814, b: 1234.6364, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -49179,7 +49179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &989017212
 Transform:
   m_ObjectHideFlags: 0
@@ -61393,7 +61393,7 @@ MonoBehaviour:
     type: 3}
   femalePrefab: {fileID: 8891328506034858952, guid: 0a83337d683c95d4c8778907857b1d50,
     type: 3}
-  mainMenu: {fileID: 989017211}
+  mainMenu: {fileID: 1444723294}
   playerCustomization: {fileID: 1235986748}
   networkManager: {fileID: 0}
 --- !u!4 &1235986750
@@ -72887,7 +72887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1444723295
 MonoBehaviour:
   m_ObjectHideFlags: 0

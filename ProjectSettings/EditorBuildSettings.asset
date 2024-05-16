@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 55d3549be83f9754abdb9370928854de
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
+    path: Assets/Scenes/ClassRoom.unity
     guid: 2febc3a588debc447831ff76f086e82b
   - enabled: 1
     path: Assets/Scenes/CharacterCustomization.unity
