@@ -13,7 +13,7 @@ public class VoiceChatBehavior : NetworkBehaviour
     public string voiceChatRoomName = "Global";
     private void Awake()
     {
-        gameObject.AddComponent<MirrorIgnorancePlayer>();
+        //gameObject.AddComponent<MirrorIgnorancePlayer>();
         _voiceBroadcastTrigger = gameObject.AddComponent<VoiceBroadcastTrigger>();
         if (_voiceBroadcastTrigger)
         {

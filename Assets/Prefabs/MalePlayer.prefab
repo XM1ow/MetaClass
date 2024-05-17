@@ -402,10 +402,10 @@ GameObject:
   - component: {fileID: 3629878702816773820}
   - component: {fileID: 3288896265361269124}
   - component: {fileID: 6051169302655912605}
-  - component: {fileID: 7002651486002552263}
   - component: {fileID: 586535862371834179}
   - component: {fileID: 8391281143079518528}
   - component: {fileID: 6610886126704191870}
+  - component: {fileID: -4777451972599999747}
   m_Layer: 0
   m_Name: MalePlayer
   m_TagString: Player
@@ -607,7 +607,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _playerInputActions: {fileID: 0}
+  _playerInputActions: {fileID: 11400000, guid: db4ef620b5888654eb78ba6a13a33073,
+    type: 2}
   voiceChatRoomName: Global
 --- !u!114 &3629878702816773820
 MonoBehaviour:
@@ -621,6 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dd0b766a7ddc940a3aed2bf0e21d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _intensity: 0
 --- !u!114 &3288896265361269124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,21 +656,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 2
---- !u!114 &7002651486002552263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1269493389004282292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae0fc7e5ceca1c440b7b759812c6a0cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
 --- !u!136 &586535862371834179
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -713,6 +700,21 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 5491534992700021108}
+--- !u!114 &-4777451972599999747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269493389004282292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0fc7e5ceca1c440b7b759812c6a0cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &1285588102183854461
 GameObject:
   m_ObjectHideFlags: 0

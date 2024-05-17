@@ -9,17 +9,17 @@ public class SpeakerIndicator : MonoBehaviour
     private Light _light;
     private Transform _transform;
 
-    private float _intensity;
+    [SerializeField] private float _intensity;
 
     private IDissonancePlayer _player;
-    private VoicePlayerState _state;
+    VoicePlayerState _state;
 
     private bool IsSpeaking => _player.Type == NetworkPlayerType.Remote && _state is {IsSpeaking: true};
 
     private void OnEnable()
     {
         _indicator = Instantiate(Resources.Load<GameObject>("SpeechIndicator"),transform);
-        _indicator.transform.localPosition = new Vector3(0, 6, 0f);
+        _indicator.transform.localPosition = new Vector3(0, 2, 0f);
 
         _light = _indicator.GetComponent<Light>();
         _transform = _indicator.GetComponent<Transform>();
@@ -67,7 +67,7 @@ public class SpeakerIndicator : MonoBehaviour
 
     private static void UpdateChildTransform([NotNull] Transform transform, float intensity)
     {
-        transform.localScale = new Vector3(intensity, intensity, intensity);
+        transform.localScale = new Vector3(intensity, intensity, intensity) * 0.5f;
     }
 
     private static void UpdateLight([NotNull] Light light, float intensity)
