@@ -5,16 +5,15 @@ using TMPro;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
-[RequireComponent(typeof(NetworkManager))]
 public class INetworkHUD : NetworkBehaviour
 {
-    INetworkManager _manager;
+    [SerializeField] private INetworkManager _manager;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
     public Button teachingButton;
-    public Button quitButton;
-    private GameObject _buttonParent;
+    public Button quitButton; 
+    [SerializeField] private GameObject _buttonParent;
     [Header("Join Room Panel")] 
     public GameObject joinRoomPanel;
     private TMP_InputField _serverAddress;
@@ -25,9 +24,9 @@ public class INetworkHUD : NetworkBehaviour
     public GameObject teachingPanel;
     void Awake()
     {
-        _manager = GetComponent<INetworkManager>();
+        //_manager = GetComponent<INetworkManager>();
         // Main Panel
-        _buttonParent = GameObject.Find("Buttons");
+        //_buttonParent = GameObject.Find("Buttons");
         if (_buttonParent)
         {
             startButton = _buttonParent.transform.Find("Host Room").GetComponent<Button>();
@@ -37,15 +36,7 @@ public class INetworkHUD : NetworkBehaviour
         }
         if (startButton)
         {
-            startButton.onClick.AddListener(() =>
-            {
-                if(!NetworkClient.isConnected && !NetworkServer.active)
-                {
-                    _manager.StartHost(); // client + server
-                    //_manager.localCharacterDataMessage = MyCharactermMessage;
-                    Debug.Log($"Starting server at {NetworkManager.singleton.networkAddress}");
-                }
-            });
+            startButton.onClick.AddListener(OnStartButton);
         }
         if(clientButton)
         {
@@ -98,17 +89,28 @@ public class INetworkHUD : NetworkBehaviour
             }
         }
     }
-    private void OnSettingButton()
+
+    public void OnStartButton()
+    {
+        if(!NetworkClient.isConnected && !NetworkServer.active)
+        {
+            _manager.StartHost(); // client + server
+            //_manager.localCharacterDataMessage = MyCharactermMessage;
+            Debug.Log($"Starting server at {_manager.networkAddress}");
+        }
+    }
+    public void OnSettingButton()
     {
         _buttonParent.SetActive(false);
         teachingPanel.SetActive(true);
     }
 
-    private void OnQuitButton()
+    public void OnQuitButton()
     {
+        Application.Quit();
     }
     
-    private void CallClientUI()
+    public void CallClientUI()
     {
         _buttonParent.SetActive(false);
         joinRoomPanel.SetActive(true);

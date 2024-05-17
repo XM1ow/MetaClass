@@ -85,12 +85,4 @@ public class INetworkManager : NetworkManager
         };
         characterOutlookSyncManager.CmdSetPlayerOutlook(messages);
     }
-    
-    public void InstantiateCharacterByName(CC_CharacterData characterData)
-    {
-        //Instantiate character from resources folder, set name and initialize the script
-        var newCharacter = (GameObject)Instantiate(Resources.Load(characterData.CharacterPrefab));
-        newCharacter.GetComponent<CharacterCustomization>().CharacterName = characterData.CharacterName;
-        newCharacter.GetComponent<CharacterCustomization>().Initialize();
-    }
 }

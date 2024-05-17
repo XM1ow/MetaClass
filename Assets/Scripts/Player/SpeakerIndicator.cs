@@ -19,7 +19,7 @@ public class SpeakerIndicator : MonoBehaviour
     private void OnEnable()
     {
         _indicator = Instantiate(Resources.Load<GameObject>("SpeechIndicator"),transform);
-        _indicator.transform.localPosition = new Vector3(0, 4, 0.5f);
+        _indicator.transform.localPosition = new Vector3(0, 6, 0f);
 
         _light = _indicator.GetComponent<Light>();
         _transform = _indicator.GetComponent<Transform>();
