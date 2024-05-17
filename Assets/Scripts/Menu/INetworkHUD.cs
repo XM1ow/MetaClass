@@ -2,57 +2,49 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.Networking.Types;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
-[RequireComponent(typeof(NetworkManager))]
-public class INetworkHUD : NetworkBehaviour
+public class INetworkHUD : MonoBehaviour
 {
-    INetworkManager _manager;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
-    public Button settingButton;
-    public Button quitButton;
-    private GameObject _buttonParent;
+    public Button teachingButton;
+    public Button quitButton; 
+    [SerializeField] private GameObject _buttonParent;
     [Header("Join Room Panel")] 
     public GameObject joinRoomPanel;
     private TMP_InputField _serverAddress;
     private Button _connectButton;
     private Button _returnButton;
+    private Button _teachingReturnButton;
     [Header("Settings Panel")]
-    public GameObject settingPanel;
+    public GameObject teachingPanel;
     void Awake()
     {
-        _manager = GetComponent<INetworkManager>();
         // Main Panel
-        _buttonParent = GameObject.Find("Buttons");
+        //_buttonParent = GameObject.Find("Buttons");
         if (_buttonParent)
         {
             startButton = _buttonParent.transform.Find("Host Room").GetComponent<Button>();
             clientButton = _buttonParent.transform.Find("Join Room").GetComponent<Button>();
-            settingButton = _buttonParent.transform.Find("Settings").GetComponent<Button>();
+            teachingButton = _buttonParent.transform.Find("Teaching").GetComponent<Button>();
             quitButton = _buttonParent.transform.Find("Quit").GetComponent<Button>();
         }
         if (startButton)
         {
-            startButton.onClick.AddListener(() =>
-            {
-                if(!NetworkClient.isConnected && !NetworkServer.active)
-                {
-                    _manager.StartHost(); // client + server
-                    //_manager.localCharacterDataMessage = MyCharactermMessage;
-                    Debug.Log($"Starting server at {NetworkManager.singleton.networkAddress}");
-                }
-            });
+            startButton.onClick.AddListener(OnStartButton);
         }
         if(clientButton)
         {
             clientButton.onClick.AddListener(CallClientUI);
         }
-        if(settingButton)
+        if(teachingButton)
         {
-            settingButton.onClick.AddListener(OnSettingButton);
+            teachingButton.onClick.AddListener(OnSettingButton);
         }
         if(quitButton)
         {
@@ -68,10 +60,10 @@ public class INetworkHUD : NetworkBehaviour
             {
                 _connectButton.onClick.AddListener(() =>
                 {
-                    _manager.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
+                    NetworkManager.singleton.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
                     //_manager.localCharacterDataMessage = MyCharactermMessage;
-                    _manager.StartClient();
-                    Debug.Log($"Connecting to {_manager.networkAddress}");
+                    NetworkManager.singleton.StartClient();
+                    Debug.Log($"Connecting to {NetworkManager.singleton.networkAddress}");
                     joinRoomPanel.SetActive(false);
                 });
             }
@@ -84,16 +76,41 @@ public class INetworkHUD : NetworkBehaviour
                 });
             }
         }
-    }
-    private void OnSettingButton()
-    {
+        if (teachingPanel)
+        {
+            _teachingReturnButton = teachingPanel.transform.Find("Back").GetComponent<Button>();
+            if (_teachingReturnButton)
+            {
+                _teachingReturnButton.onClick.AddListener(() =>
+                {
+                    teachingPanel.SetActive(false);
+                    _buttonParent.SetActive(true);
+                });
+            }
+        }
     }
 
-    private void OnQuitButton()
+    public void OnStartButton()
     {
+        if(!NetworkClient.isConnected && !NetworkServer.active)
+        {
+            NetworkManager.singleton.StartHost(); // client + server
+            //_manager.localCharacterDataMessage = MyCharactermMessage;
+            //Debug.Log($"Starting server at {_manager.networkAddress}");
+        }
+    }
+    public void OnSettingButton()
+    {
+        _buttonParent.SetActive(false);
+        teachingPanel.SetActive(true);
+    }
+
+    public void OnQuitButton()
+    {
+        Application.Quit();
     }
     
-    private void CallClientUI()
+    public void CallClientUI()
     {
         _buttonParent.SetActive(false);
         joinRoomPanel.SetActive(true);
