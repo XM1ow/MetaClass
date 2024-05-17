@@ -12,6 +12,10 @@ public class ChatSample : MonoBehaviour
     [SerializeField] private ChatSetting m_ChatSettings;
     #region UI界面定义
     /// <summary>
+    /// 窗口
+    /// </summary>
+    [SerializeField] private GameObject canvas;
+    /// <summary>
     /// 对话窗口
     /// </summary>
     [SerializeField] private GameObject m_ChatPanel;
@@ -31,6 +35,14 @@ public class ChatSample : MonoBehaviour
     /// 发送信息按钮
     /// </summary>
     [SerializeField] private Button m_CommitMsgBtn;
+    /// <summary>
+    /// 主相机
+    /// </summary>
+    [SerializeField] private GameObject mainCamera;
+    /// <summary>
+    /// 对话相机
+    /// </summary>
+    [SerializeField] private GameObject chatCamera;
 
     #endregion
 
@@ -408,4 +420,12 @@ public class ChatSample : MonoBehaviour
 
         m_Animator.SetInteger(_para, _value);
     }
+
+    public void ExitChat()
+    {
+        canvas.SetActive(false);
+        mainCamera.SetActive(true);
+        chatCamera.SetActive(false);
+    }
+
 }
