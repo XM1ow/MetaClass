@@ -7,6 +7,8 @@ using CC;
 
 public class INetworkManager : NetworkManager
 {
+    
+
     public CharacterCustomizationNetworkMessage myCharacterMessage;
     
     public CharacterOutlookSync characterOutlookSyncManager;

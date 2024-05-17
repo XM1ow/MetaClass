@@ -2,12 +2,13 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.Networking.Types;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Network/I Network HUD")]
-public class INetworkHUD : NetworkBehaviour
+public class INetworkHUD : MonoBehaviour
 {
-    [SerializeField] private INetworkManager _manager;
     [Header("Main Buttons")]
     public Button startButton;
     public Button clientButton;
@@ -24,7 +25,6 @@ public class INetworkHUD : NetworkBehaviour
     public GameObject teachingPanel;
     void Awake()
     {
-        //_manager = GetComponent<INetworkManager>();
         // Main Panel
         //_buttonParent = GameObject.Find("Buttons");
         if (_buttonParent)
@@ -60,10 +60,10 @@ public class INetworkHUD : NetworkBehaviour
             {
                 _connectButton.onClick.AddListener(() =>
                 {
-                    _manager.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
+                    NetworkManager.singleton.networkAddress = _serverAddress.text == "" ?"localhost" : _serverAddress.text;
                     //_manager.localCharacterDataMessage = MyCharactermMessage;
-                    _manager.StartClient();
-                    Debug.Log($"Connecting to {_manager.networkAddress}");
+                    NetworkManager.singleton.StartClient();
+                    Debug.Log($"Connecting to {NetworkManager.singleton.networkAddress}");
                     joinRoomPanel.SetActive(false);
                 });
             }
@@ -94,9 +94,9 @@ public class INetworkHUD : NetworkBehaviour
     {
         if(!NetworkClient.isConnected && !NetworkServer.active)
         {
-            _manager.StartHost(); // client + server
+            NetworkManager.singleton.StartHost(); // client + server
             //_manager.localCharacterDataMessage = MyCharactermMessage;
-            Debug.Log($"Starting server at {_manager.networkAddress}");
+            //Debug.Log($"Starting server at {_manager.networkAddress}");
         }
     }
     public void OnSettingButton()
